@@ -16,6 +16,7 @@ export type Database = {
           id: number
           invite_type: string | null
           name: string | null
+          notes: string | null
           surname: string | null
         }
         Insert: {
@@ -24,6 +25,7 @@ export type Database = {
           id?: number
           invite_type?: string | null
           name?: string | null
+          notes?: string | null
           surname?: string | null
         }
         Update: {
@@ -32,6 +34,7 @@ export type Database = {
           id?: number
           invite_type?: string | null
           name?: string | null
+          notes?: string | null
           surname?: string | null
         }
         Relationships: []

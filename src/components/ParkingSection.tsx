@@ -34,14 +34,14 @@ const ParkingSection = () => {
   ];
 
   return (
-    <section id="parking" className="py-20 bg-wedding-cream/30">
+    <section id="parking" className="py-20 bg-gradient-to-br from-wedding-cream to-wedding-light">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="font-playfair text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+          <h2 className="font-playfair text-4xl md:text-5xl font-bold text-wedding-brick mb-4">
             Informazioni Parcheggio
           </h2>
-          <div className="w-24 h-px bg-wedding-brick mx-auto mb-6"></div>
-          <p className="font-inter text-lg text-gray-600 max-w-2xl mx-auto">
+          <div className="w-24 h-px bg-wedding-dust mx-auto mb-6"></div>
+          <p className="font-inter text-lg text-wedding-dust max-w-2xl mx-auto">
             Abbiamo organizzato diverse opzioni di parcheggio comode vicino alla Basilica di San Magno.
           </p>
         </div>
@@ -50,19 +50,19 @@ const ParkingSection = () => {
           {parkingSpots.map((spot, index) => (
             <div
               key={index}
-              className="bg-white p-6 rounded-lg shadow-sm border border-wedding-brick/20 hover:shadow-md transition-shadow duration-300"
+              className="bg-white p-6 rounded-lg shadow-lg border-l-4 border-wedding-brick hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
               <div className="flex items-start space-x-4">
-                <div className="bg-wedding-dust/20 p-3 rounded-full">
-                  <Car className="w-6 h-6 text-wedding-brick" />
+                <div className="bg-wedding-dust p-3 rounded-full">
+                  <Car className="w-6 h-6 text-white" />
                 </div>
                 
                 <div className="flex-1">
-                  <h3 className="font-playfair text-xl font-bold text-gray-800 mb-2">
+                  <h3 className="font-playfair text-xl font-bold text-wedding-brick mb-2">
                     {spot.name}
                   </h3>
                   
-                  <div className="space-y-2 font-inter text-sm text-gray-600">
+                  <div className="space-y-2 font-inter text-sm text-wedding-dust">
                     <div className="flex items-center space-x-2">
                       <MapPin className="w-4 h-4" />
                       <span>{spot.description}</span>
@@ -79,7 +79,7 @@ const ParkingSection = () => {
                     </div>
                     
                     {spot.note && (
-                      <div className="mt-3 p-2 bg-wedding-light/50 rounded text-xs">
+                      <div className="mt-3 p-2 bg-wedding-brick/10 border border-wedding-brick/20 rounded text-xs">
                         <strong>Nota:</strong> {spot.note}
                       </div>
                     )}
