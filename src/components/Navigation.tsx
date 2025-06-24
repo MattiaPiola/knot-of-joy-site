@@ -26,10 +26,10 @@ const Navigation = ({ activeSection }: NavigationProps) => {
 
   const navItems = [
     { id: "hero", label: "Home" },
-    { id: "date-venue", label: "When & Where" },
-    { id: "parking", label: "Parking" },
-    { id: "party", label: "Reception" },
-    { id: "gifts", label: "Gifts" },
+    { id: "date-venue", label: "Quando e Dove" },
+    { id: "parking", label: "Parcheggio" },
+    { id: "party", label: "Ricevimento" },
+    { id: "gifts", label: "Regali" },
     { id: "rsvp", label: "RSVP" },
   ];
 
@@ -44,10 +44,14 @@ const Navigation = ({ activeSection }: NavigationProps) => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           <div
-            className="font-playfair text-2xl font-bold text-wedding-gold cursor-pointer"
+            className="cursor-pointer"
             onClick={() => scrollToSection("hero")}
           >
-            S & M
+            <img 
+              src="/logo.png" 
+              alt="F & M" 
+              className="h-10 w-auto"
+            />
           </div>
           
           <div className="hidden md:flex space-x-8">

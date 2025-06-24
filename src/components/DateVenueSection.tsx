@@ -7,7 +7,7 @@ const DateVenueSection = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="font-playfair text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-            When & Where
+            Quando e Dove
           </h2>
           <div className="w-24 h-px bg-wedding-gold mx-auto"></div>
         </div>
@@ -16,28 +16,27 @@ const DateVenueSection = () => {
           <div className="text-center bg-wedding-cream/50 p-8 rounded-lg">
             <Calendar className="w-12 h-12 text-wedding-gold mx-auto mb-4" />
             <h3 className="font-playfair text-2xl font-bold text-gray-800 mb-4">
-              Wedding Ceremony
+              Cerimonia Religiosa
             </h3>
             
             <div className="space-y-3 font-inter text-gray-600">
               <div className="flex items-center justify-center space-x-2">
                 <Calendar className="w-4 h-4" />
-                <span>Saturday, June 15th, 2024</span>
+                <span>Venerdì, 25 Ottobre 2024</span>
               </div>
               
               <div className="flex items-center justify-center space-x-2">
                 <Clock className="w-4 h-4" />
-                <span>2:00 PM</span>
+                <span>10:30</span>
               </div>
               
               <div className="flex items-center justify-center space-x-2">
                 <MapPin className="w-4 h-4" />
-                <span>St. Mary's Church</span>
+                <span>Basilica di San Magno</span>
               </div>
               
               <p className="text-sm">
-                123 Church Street<br />
-                Downtown, City 12345
+                Legnano
               </p>
             </div>
           </div>
@@ -45,28 +44,28 @@ const DateVenueSection = () => {
           <div className="text-center bg-wedding-sage/20 p-8 rounded-lg">
             <MapPin className="w-12 h-12 text-wedding-gold mx-auto mb-4" />
             <h3 className="font-playfair text-2xl font-bold text-gray-800 mb-4">
-              Reception
+              Ricevimento
             </h3>
             
             <div className="space-y-3 font-inter text-gray-600">
               <div className="flex items-center justify-center space-x-2">
                 <Clock className="w-4 h-4" />
-                <span>5:00 PM - 11:00 PM</span>
+                <span>13:30 - 23:00</span>
               </div>
               
               <div className="flex items-center justify-center space-x-2">
                 <MapPin className="w-4 h-4" />
-                <span>Grand Ballroom</span>
+                <span>Cascina Galizia</span>
               </div>
               
               <p className="text-sm">
-                456 Reception Avenue<br />
-                Celebration Hall, City 12345
+                Cuggiono
               </p>
               
               <p className="text-xs text-gray-500 mt-4">
-                Cocktail hour begins at 5:00 PM<br />
-                Dinner served at 6:30 PM
+                Pranzo ore 13:30<br />
+                Taglio torta ore 16:30<br />
+                Musica e balli a seguire
               </p>
             </div>
           </div>

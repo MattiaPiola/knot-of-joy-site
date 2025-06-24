@@ -11,8 +11,8 @@ const RsvpSection = () => {
   const handleSearch = async () => {
     if (!guestName.trim()) {
       toast({
-        title: "Please enter your name",
-        description: "We need your name to find your invitation details.",
+        title: "Inserisci il tuo nome",
+        description: "Abbiamo bisogno del tuo nome per trovare i dettagli del tuo invito.",
         variant: "destructive",
       });
       return;
@@ -24,8 +24,8 @@ const RsvpSection = () => {
     setTimeout(() => {
       setIsSearching(false);
       toast({
-        title: "Supabase Connection Required",
-        description: "Please connect to Supabase to enable RSVP functionality.",
+        title: "Connessione Supabase Richiesta",
+        description: "Collega Supabase per abilitare la funzionalità RSVP.",
         variant: "destructive",
       });
     }, 1000);
@@ -40,7 +40,7 @@ const RsvpSection = () => {
           </h2>
           <div className="w-24 h-px bg-wedding-gold mx-auto mb-6"></div>
           <p className="font-inter text-lg text-gray-600 max-w-2xl mx-auto">
-            Please let us know if you can join us for our special day. We can't wait to celebrate with you!
+            Vi preghiamo di farci sapere se potete unirvi a noi nel nostro giorno speciale. Non vediamo l'ora di festeggiare con voi!
           </p>
         </div>
 
@@ -51,17 +51,17 @@ const RsvpSection = () => {
                 <Users className="w-8 h-8 text-wedding-gold" />
               </div>
               <h3 className="font-playfair text-2xl font-bold text-gray-800 mb-2">
-                Find Your Invitation
+                Trova il Tuo Invito
               </h3>
               <p className="font-inter text-gray-600">
-                Enter your name to view your invitation details and RSVP for your party
+                Inserisci il tuo nome per visualizzare i dettagli del tuo invito e confermare la partecipazione
               </p>
             </div>
 
             <div className="space-y-6">
               <div>
                 <label className="font-inter font-medium text-gray-700 block mb-2">
-                  Your Name
+                  Il Tuo Nome
                 </label>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -69,7 +69,7 @@ const RsvpSection = () => {
                     type="text"
                     value={guestName}
                     onChange={(e) => setGuestName(e.target.value)}
-                    placeholder="Enter your first and last name"
+                    placeholder="Inserisci nome e cognome"
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wedding-gold focus:border-transparent font-inter"
                     onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                   />
@@ -81,7 +81,7 @@ const RsvpSection = () => {
                 disabled={isSearching}
                 className="w-full bg-wedding-gold text-white font-inter font-medium py-3 px-6 rounded-lg hover:bg-wedding-gold/90 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSearching ? "Searching..." : "Find My Invitation"}
+                {isSearching ? "Cercando..." : "Trova il Mio Invito"}
               </button>
             </div>
 
@@ -89,19 +89,19 @@ const RsvpSection = () => {
               <div className="flex items-center space-x-3 mb-4">
                 <Calendar className="w-5 h-5 text-wedding-gold" />
                 <span className="font-inter font-medium text-gray-800">
-                  RSVP Deadline: May 15th, 2024
+                  Scadenza RSVP: 10 Ottobre 2024
                 </span>
               </div>
               <p className="font-inter text-sm text-gray-600">
-                Please respond by May 15th to help us finalize our headcount. 
-                If you have any dietary restrictions or special requests, please include them in your response.
+                Vi preghiamo di rispondere entro il 10 ottobre per aiutarci a finalizzare il conteggio degli ospiti. 
+                Se avete restrizioni alimentari o richieste speciali, includetele nella vostra risposta.
               </p>
             </div>
 
             <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
               <p className="font-inter text-sm text-red-700">
-                <strong>Setup Required:</strong> The RSVP functionality requires Supabase integration. 
-                Please connect to Supabase to enable guest lookup and RSVP confirmation features.
+                <strong>Configurazione Richiesta:</strong> La funzionalità RSVP richiede l'integrazione con Supabase. 
+                Collega Supabase per abilitare la ricerca degli ospiti e le funzioni di conferma RSVP.
               </p>
             </div>
           </div>

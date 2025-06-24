@@ -4,32 +4,32 @@ import { Car, MapPin } from "lucide-react";
 const ParkingSection = () => {
   const parkingSpots = [
     {
-      name: "Church Parking Lot",
-      description: "Main parking area behind St. Mary's Church",
-      spaces: "50 spaces",
-      distance: "0 min walk",
-      note: "Reserved for elderly and disabled guests"
+      name: "Parcheggio Basilica",
+      description: "Parcheggio principale della Basilica di San Magno",
+      spaces: "30 posti",
+      distance: "0 min a piedi",
+      note: "Riservato agli ospiti della cerimonia"
     },
     {
-      name: "Municipal Parking Garage",
-      description: "123 Main Street, 2 blocks east of church",
-      spaces: "200 spaces",
-      distance: "3 min walk",
-      note: "Free on weekends"
+      name: "Parcheggio Via Volta",
+      description: "Via Alessandro Volta, 2 isolati dalla basilica",
+      spaces: "50 posti",
+      distance: "3 min a piedi",
+      note: "Gratuito nei giorni festivi"
     },
     {
-      name: "Street Parking",
-      description: "Church Street and surrounding blocks",
-      spaces: "Limited",
-      distance: "1-5 min walk",
-      note: "Check posted signs for time limits"
+      name: "Parcheggio Strada",
+      description: "Via San Magno e strade limitrofe",
+      spaces: "Limitato",
+      distance: "1-5 min a piedi",
+      note: "Controllare la segnaletica per i limiti orari"
     },
     {
-      name: "Community Center Lot",
-      description: "789 Community Drive, 1 block north",
-      spaces: "75 spaces",
-      distance: "4 min walk",
-      note: "Available after 1:00 PM"
+      name: "Parcheggio Centro",
+      description: "Piazza San Magno, centro di Legnano",
+      spaces: "40 posti",
+      distance: "5 min a piedi",
+      note: "Disponibile dopo le 9:00"
     }
   ];
 
@@ -38,11 +38,11 @@ const ParkingSection = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="font-playfair text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-            Parking Information
+            Informazioni Parcheggio
           </h2>
           <div className="w-24 h-px bg-wedding-gold mx-auto mb-6"></div>
           <p className="font-inter text-lg text-gray-600 max-w-2xl mx-auto">
-            We've arranged several convenient parking options near St. Mary's Church for your comfort.
+            Abbiamo organizzato diverse opzioni di parcheggio comode vicino alla Basilica di San Magno.
           </p>
         </div>
 
@@ -69,18 +69,18 @@ const ParkingSection = () => {
                     </div>
                     
                     <div className="flex justify-between">
-                      <span className="font-medium">Capacity:</span>
+                      <span className="font-medium">Capacità:</span>
                       <span>{spot.spaces}</span>
                     </div>
                     
                     <div className="flex justify-between">
-                      <span className="font-medium">Walking Time:</span>
+                      <span className="font-medium">Tempo a piedi:</span>
                       <span>{spot.distance}</span>
                     </div>
                     
                     {spot.note && (
                       <div className="mt-3 p-2 bg-wedding-blush/50 rounded text-xs">
-                        <strong>Note:</strong> {spot.note}
+                        <strong>Nota:</strong> {spot.note}
                       </div>
                     )}
                   </div>
