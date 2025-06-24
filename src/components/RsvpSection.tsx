@@ -41,25 +41,101 @@ const RsvpSection = () => {
       
       console.log('=== RSVP SEARCH DEBUG ===');
       console.log('Searching for:', { firstName: trimmedFirstName, lastName: trimmedLastName });
+      console.log('First name length:', trimmedFirstName.length);
+      console.log('Last name length:', trimmedLastName.length);
+      console.log('First name bytes:', [...trimmedFirstName].map(c => c.charCodeAt(0)));
+      console.log('Last name bytes:', [...trimmedLastName].map(c => c.charCodeAt(0)));
       
-      // Step 1: Try exact case-sensitive match
-      console.log('Step 1: Trying exact case-sensitive match...');
-      const { data: exactResults, error: exactError } = await supabase
+      // First, let's get all guests to see what's actually in the database
+      console.log('Step 1: Getting all guests for comparison...');
+      const { data: allGuests, error: allError } = await supabase
+        .from('guests')
+        .select('*');
+      
+      console.log('All guests in database:', allGuests);
+      console.log('All guests error:', allError);
+      
+      if (allGuests) {
+        allGuests.forEach((guest, index) => {
+          console.log(`Guest ${index + 1}:`, {
+            name: guest.name,
+            surname: guest.surname,
+            nameLength: guest.name?.length,
+            surnameLength: guest.surname?.length,
+            nameBytes: guest.name ? [...guest.name].map(c => c.charCodeAt(0)) : null,
+            surnameBytes: guest.surname ? [...guest.surname].map(c => c.charCodeAt(0)) : null
+          });
+        });
+      }
+
+      // Strategy 1: Try exact case-sensitive match
+      console.log('Step 2: Trying exact case-sensitive match...');
+      let { data: results, error } = await supabase
         .from('guests')
         .select('*')
         .eq('name', trimmedFirstName)
         .eq('surname', trimmedLastName);
 
-      console.log('Exact search results:', exactResults);
-      console.log('Exact search error:', exactError);
+      console.log('Exact search query:', `name='${trimmedFirstName}' AND surname='${trimmedLastName}'`);
+      console.log('Exact search results:', results);
+      console.log('Exact search error:', error);
 
-      if (exactError) {
-        console.error('Exact search error:', exactError);
-      }
-
-      if (exactResults && exactResults.length > 0) {
+      if (results && results.length > 0) {
         console.log('Found exact match!');
-        const mainGuest = exactResults[0];
+      } else {
+        // Strategy 2: Try case-insensitive with separate queries
+        console.log('Step 3: Trying case-insensitive with OR logic...');
+        
+        // Try finding by first name only
+        const { data: firstNameResults } = await supabase
+          .from('guests')
+          .select('*')
+          .ilike('name', trimmedFirstName);
+        
+        console.log('First name only results:', firstNameResults);
+        
+        // Try finding by last name only
+        const { data: lastNameResults } = await supabase
+          .from('guests')
+          .select('*')
+          .ilike('surname', trimmedLastName);
+        
+        console.log('Last name only results:', lastNameResults);
+        
+        // Now try the combined search with proper case-insensitive matching
+        const { data: caseInsensitiveResults, error: caseError } = await supabase
+          .from('guests')
+          .select('*')
+          .or(`and(name.ilike.${trimmedFirstName},surname.ilike.${trimmedLastName})`);
+
+        console.log('Case-insensitive search query:', `name ILIKE '${trimmedFirstName}' AND surname ILIKE '${trimmedLastName}'`);
+        console.log('Case-insensitive search results:', caseInsensitiveResults);
+        console.log('Case-insensitive search error:', caseError);
+
+        if (caseInsensitiveResults && caseInsensitiveResults.length > 0) {
+          results = caseInsensitiveResults;
+          console.log('Found case-insensitive match!');
+        } else {
+          // Strategy 3: Try partial matching with wildcards
+          console.log('Step 4: Trying partial matching...');
+          const { data: partialResults, error: partialError } = await supabase
+            .from('guests')
+            .select('*')
+            .or(`name.ilike.%${trimmedFirstName}%,surname.ilike.%${trimmedLastName}%`);
+          
+          console.log('Partial search results:', partialResults);
+          console.log('Partial search error:', partialError);
+          
+          if (partialResults && partialResults.length > 0) {
+            results = partialResults;
+            console.log('Found partial match!');
+          }
+        }
+      }
+
+      if (results && results.length > 0) {
+        const mainGuest = results[0];
+        console.log('Main guest found:', mainGuest);
         
         // Get family members
         const { data: familyGuests, error: familyError } = await supabase
@@ -68,8 +144,11 @@ const RsvpSection = () => {
           .eq('family_id', mainGuest.family_id);
 
         if (familyError) {
+          console.error('Family search error:', familyError);
           throw familyError;
         }
+
+        console.log('Family guests:', familyGuests);
 
         setFoundGuests(familyGuests || []);
         setInviteType(mainGuest.invite_type || '');
@@ -89,108 +168,8 @@ const RsvpSection = () => {
         return;
       }
 
-      // Step 2: Try case-insensitive exact match
-      console.log('Step 2: Trying case-insensitive exact match...');
-      const { data: iexactResults, error: iexactError } = await supabase
-        .from('guests')
-        .select('*')
-        .ilike('name', trimmedFirstName)
-        .ilike('surname', trimmedLastName);
-
-      console.log('Case-insensitive exact search results:', iexactResults);
-      console.log('Case-insensitive exact search error:', iexactError);
-
-      if (iexactError) {
-        console.error('Case-insensitive exact search error:', iexactError);
-      }
-
-      if (iexactResults && iexactResults.length > 0) {
-        console.log('Found case-insensitive exact match!');
-        const mainGuest = iexactResults[0];
-        
-        // Get family members
-        const { data: familyGuests, error: familyError } = await supabase
-          .from('guests')
-          .select('*')
-          .eq('family_id', mainGuest.family_id);
-
-        if (familyError) {
-          throw familyError;
-        }
-
-        setFoundGuests(familyGuests || []);
-        setInviteType(mainGuest.invite_type || '');
-        
-        // Initialize notes state
-        const notesMap: {[key: number]: string} = {};
-        familyGuests?.forEach(guest => {
-          notesMap[guest.id] = guest.notes || '';
-        });
-        setGuestNotes(notesMap);
-        
-        toast({
-          title: "Invito trovato!",
-          description: `Ciao ${mainGuest.name}! Ecco i dettagli del tuo invito.`,
-        });
-        
-        return;
-      }
-
-      // Step 3: Try partial matching
-      console.log('Step 3: Trying partial matching...');
-      const { data: partialResults, error: partialError } = await supabase
-        .from('guests')
-        .select('*')
-        .or(`name.ilike.%${trimmedFirstName}%,surname.ilike.%${trimmedLastName}%`);
-      
-      console.log('Partial search results:', partialResults);
-      console.log('Partial search error:', partialError);
-      
-      if (partialError) {
-        console.error('Partial search error:', partialError);
-      }
-      
-      if (partialResults && partialResults.length > 0) {
-        console.log('Found partial match!');
-        const mainGuest = partialResults[0];
-        
-        // Get family members
-        const { data: familyGuests, error: familyError } = await supabase
-          .from('guests')
-          .select('*')
-          .eq('family_id', mainGuest.family_id);
-
-        if (familyError) {
-          throw familyError;
-        }
-
-        setFoundGuests(familyGuests || []);
-        setInviteType(mainGuest.invite_type || '');
-        
-        // Initialize notes state
-        const notesMap: {[key: number]: string} = {};
-        familyGuests?.forEach(guest => {
-          notesMap[guest.id] = guest.notes || '';
-        });
-        setGuestNotes(notesMap);
-        
-        toast({
-          title: "Invito trovato!",
-          description: `Ciao ${mainGuest.name}! Ecco i dettagli del tuo invito.`,
-        });
-        
-        return;
-      }
-
-      // Step 4: Debug - Get all guests to see what's in the database
-      console.log('Step 4: No matches found, getting all guests for debugging...');
-      const { data: allGuests, error: allError } = await supabase
-        .from('guests')
-        .select('name, surname, invite_type');
-      
-      console.log('All guests in database:', allGuests);
-      console.log('All guests error:', allError);
-      
+      // No matches found
+      console.log('No matches found for any search strategy');
       toast({
         title: "Ospite non trovato",
         description: `Non riusciamo a trovare "${trimmedFirstName} ${trimmedLastName}" nella lista degli invitati. Verifica l'ortografia o contattaci.`,
