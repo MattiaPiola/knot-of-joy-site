@@ -37,35 +37,101 @@ const RsvpSection = () => {
     setIsSearching(true);
     
     try {
-      // Search for the guest by name and surname
+      const trimmedFirstName = firstName.trim();
+      const trimmedLastName = lastName.trim();
+      
+      console.log('Searching for:', { firstName: trimmedFirstName, lastName: trimmedLastName });
+      
+      // Search for the guest by name and surname with case-insensitive matching
       const { data: searchResults, error: searchError } = await supabase
         .from('guests')
         .select('*')
-        .ilike('name', `%${firstName.trim()}%`)
-        .ilike('surname', `%${lastName.trim()}%`);
+        .ilike('name', trimmedFirstName)
+        .ilike('surname', trimmedLastName);
+
+      console.log('Search results:', searchResults);
+      console.log('Search error:', searchError);
 
       if (searchError) {
+        console.error('Supabase search error:', searchError);
         throw searchError;
       }
 
       if (!searchResults || searchResults.length === 0) {
-        toast({
-          title: "Ospite non trovato",
-          description: "Non riusciamo a trovare il tuo nome nella lista degli invitati. Verifica l'ortografia o contattaci.",
-          variant: "destructive",
+        // Try a more flexible search - partial matching
+        console.log('No exact match found, trying partial match...');
+        
+        const { data: partialResults, error: partialError } = await supabase
+          .from('guests')
+          .select('*')
+          .or(`name.ilike.%${trimmedFirstName}%,surname.ilike.%${trimmedLastName}%`);
+        
+        console.log('Partial search results:', partialResults);
+        
+        if (partialError) {
+          console.error('Partial search error:', partialError);
+        }
+        
+        if (!partialResults || partialResults.length === 0) {
+          // Get all guests for debugging
+          const { data: allGuests } = await supabase
+            .from('guests')
+            .select('name, surname');
+          
+          console.log('All guests in database:', allGuests);
+          
+          toast({
+            title: "Ospite non trovato",
+            description: `Non riusciamo a trovare "${trimmedFirstName} ${trimmedLastName}" nella lista degli invitati. Verifica l'ortografia o contattaci.`,
+            variant: "destructive",
+          });
+          setFoundGuests([]);
+          return;
+        }
+        
+        // Use partial results if found
+        const mainGuest = partialResults[0];
+        
+        const { data: familyGuests, error: familyError } = await supabase
+          .from('guests')
+          .select('*')
+          .eq('family_id', mainGuest.family_id);
+
+        if (familyError) {
+          throw familyError;
+        }
+
+        setFoundGuests(familyGuests || []);
+        setInviteType(mainGuest.invite_type || '');
+        
+        // Initialize notes state for existing notes
+        const notesMap: {[key: number]: string} = {};
+        familyGuests?.forEach(guest => {
+          notesMap[guest.id] = guest.notes || '';
         });
-        setFoundGuests([]);
+        setGuestNotes(notesMap);
+        
+        toast({
+          title: "Invito trovato!",
+          description: `Ciao ${mainGuest.name}! Ecco i dettagli del tuo invito.`,
+        });
+        
         return;
       }
 
       // Get the first match and find all family members
       const mainGuest = searchResults[0];
+      console.log('Main guest found:', mainGuest);
+      
       const { data: familyGuests, error: familyError } = await supabase
         .from('guests')
         .select('*')
         .eq('family_id', mainGuest.family_id);
 
+      console.log('Family guests:', familyGuests);
+
       if (familyError) {
+        console.error('Family search error:', familyError);
         throw familyError;
       }
 
@@ -100,6 +166,8 @@ const RsvpSection = () => {
     try {
       const notes = guestNotes[guestId] || '';
       
+      console.log('Updating guest:', { guestId, confirmed, notes });
+      
       const { error } = await supabase
         .from('guests')
         .update({ 
@@ -109,6 +177,7 @@ const RsvpSection = () => {
         .eq('id', guestId);
 
       if (error) {
+        console.error('Update error:', error);
         throw error;
       }
 
@@ -157,20 +226,20 @@ const RsvpSection = () => {
   };
 
   return (
-    <section id="rsvp" className="py-20 bg-gradient-to-br from-wedding-dust/90 to-wedding-brick/80">
+    <section id="rsvp" className="py-20 bg-gradient-to-br from-wedding-brick/20 via-wedding-dust/30 to-wedding-brick/40">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="font-playfair text-4xl md:text-5xl font-bold text-white mb-4">
+          <h2 className="font-playfair text-4xl md:text-5xl font-bold text-wedding-brick mb-4">
             RSVP
           </h2>
-          <div className="w-24 h-px bg-wedding-cream mx-auto mb-6"></div>
-          <p className="font-inter text-lg text-wedding-cream max-w-2xl mx-auto">
+          <div className="w-24 h-px bg-wedding-brick mx-auto mb-6"></div>
+          <p className="font-inter text-lg text-wedding-dust max-w-2xl mx-auto">
             Vi preghiamo di farci sapere se potete unirvi a noi nel nostro giorno speciale. Non vediamo l'ora di festeggiare con voi!
           </p>
         </div>
 
         <div className="max-w-2xl mx-auto">
-          <div className="bg-wedding-cream p-8 rounded-lg shadow-xl border-2 border-wedding-brick/20">
+          <div className="bg-white p-8 rounded-lg shadow-xl border-2 border-wedding-brick/20">
             <div className="text-center mb-8">
               <div className="bg-wedding-brick p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                 <Users className="w-8 h-8 text-white" />
@@ -223,13 +292,13 @@ const RsvpSection = () => {
             </div>
 
             {foundGuests.length > 0 && (
-              <div className="mt-8 p-6 bg-white rounded-lg border-2 border-wedding-dust/20 shadow-lg">
+              <div className="mt-8 p-6 bg-wedding-cream/50 rounded-lg border-2 border-wedding-dust/20 shadow-lg">
                 <div className="mb-4">
                   <h4 className="font-playfair text-xl font-bold text-wedding-brick mb-2">
                     Dettagli Invito
                   </h4>
                   <div className="bg-wedding-dust/20 p-3 rounded-lg border border-wedding-dust/30">
-                    <p className="font-inter font-medium text-wedding-dust">
+                    <p className="font-inter font-medium text-wedding-brick">
                       Tipo di invito: {getInviteTypeLabel(inviteType)}
                     </p>
                   </div>
@@ -240,7 +309,7 @@ const RsvpSection = () => {
                     Conferma partecipazione per:
                   </h5>
                   {foundGuests.map((guest) => (
-                    <div key={guest.id} className="p-4 bg-wedding-cream border border-wedding-brick/20 rounded-lg">
+                    <div key={guest.id} className="p-4 bg-white border border-wedding-brick/20 rounded-lg">
                       <div className="flex items-center justify-between mb-3">
                         <span className="font-inter font-medium text-wedding-brick">
                           {guest.name} {guest.surname}
@@ -288,7 +357,7 @@ const RsvpSection = () => {
               </div>
             )}
 
-            <div className="mt-8 p-4 bg-white rounded-lg border-2 border-wedding-brick/20 shadow-lg">
+            <div className="mt-8 p-4 bg-wedding-dust/10 rounded-lg border-2 border-wedding-brick/20 shadow-lg">
               <div className="flex items-center space-x-3 mb-4">
                 <Calendar className="w-5 h-5 text-wedding-brick" />
                 <span className="font-inter font-medium text-wedding-brick">
