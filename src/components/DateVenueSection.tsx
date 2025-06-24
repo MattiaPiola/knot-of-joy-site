@@ -9,12 +9,12 @@ const DateVenueSection = () => {
           <h2 className="font-playfair text-4xl md:text-5xl font-bold text-gray-800 mb-4">
             Quando e Dove
           </h2>
-          <div className="w-24 h-px bg-wedding-gold mx-auto"></div>
+          <div className="w-24 h-px bg-wedding-brick mx-auto"></div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
           <div className="text-center bg-wedding-cream/50 p-8 rounded-lg">
-            <Calendar className="w-12 h-12 text-wedding-gold mx-auto mb-4" />
+            <Calendar className="w-12 h-12 text-wedding-brick mx-auto mb-4" />
             <h3 className="font-playfair text-2xl font-bold text-gray-800 mb-4">
               Cerimonia Religiosa
             </h3>
@@ -41,8 +41,8 @@ const DateVenueSection = () => {
             </div>
           </div>
 
-          <div className="text-center bg-wedding-sage/20 p-8 rounded-lg">
-            <MapPin className="w-12 h-12 text-wedding-gold mx-auto mb-4" />
+          <div className="text-center bg-wedding-dust/20 p-8 rounded-lg">
+            <MapPin className="w-12 h-12 text-wedding-brick mx-auto mb-4" />
             <h3 className="font-playfair text-2xl font-bold text-gray-800 mb-4">
               Ricevimento
             </h3>

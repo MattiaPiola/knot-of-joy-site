@@ -40,7 +40,7 @@ const ParkingSection = () => {
           <h2 className="font-playfair text-4xl md:text-5xl font-bold text-gray-800 mb-4">
             Informazioni Parcheggio
           </h2>
-          <div className="w-24 h-px bg-wedding-gold mx-auto mb-6"></div>
+          <div className="w-24 h-px bg-wedding-brick mx-auto mb-6"></div>
           <p className="font-inter text-lg text-gray-600 max-w-2xl mx-auto">
             Abbiamo organizzato diverse opzioni di parcheggio comode vicino alla Basilica di San Magno.
           </p>
@@ -50,11 +50,11 @@ const ParkingSection = () => {
           {parkingSpots.map((spot, index) => (
             <div
               key={index}
-              className="bg-white p-6 rounded-lg shadow-sm border border-wedding-gold/20 hover:shadow-md transition-shadow duration-300"
+              className="bg-white p-6 rounded-lg shadow-sm border border-wedding-brick/20 hover:shadow-md transition-shadow duration-300"
             >
               <div className="flex items-start space-x-4">
-                <div className="bg-wedding-sage/20 p-3 rounded-full">
-                  <Car className="w-6 h-6 text-wedding-gold" />
+                <div className="bg-wedding-dust/20 p-3 rounded-full">
+                  <Car className="w-6 h-6 text-wedding-brick" />
                 </div>
                 
                 <div className="flex-1">
@@ -79,7 +79,7 @@ const ParkingSection = () => {
                     </div>
                     
                     {spot.note && (
-                      <div className="mt-3 p-2 bg-wedding-blush/50 rounded text-xs">
+                      <div className="mt-3 p-2 bg-wedding-light/50 rounded text-xs">
                         <strong>Nota:</strong> {spot.note}
                       </div>
                     )}

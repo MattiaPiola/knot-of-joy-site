@@ -68,10 +68,10 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				wedding: {
-					gold: '#D4AF37',
+					brick: '#AF562A',
+					dust: '#4B6382',
 					cream: '#FDF8F0',
-					sage: '#9CAF88',
-					blush: '#F7E7CE'
+					light: '#E8D5C4'
 				}
 			},
 			borderRadius: {

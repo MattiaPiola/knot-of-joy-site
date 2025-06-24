@@ -48,9 +48,9 @@ const Navigation = ({ activeSection }: NavigationProps) => {
             onClick={() => scrollToSection("hero")}
           >
             <img 
-              src="/logo.png" 
+              src="/lovable-uploads/d7cda7b5-b1ec-4669-aeeb-043e88557d72.png" 
               alt="F & M" 
-              className="h-10 w-auto"
+              className="h-12 w-auto"
             />
           </div>
           
@@ -59,9 +59,9 @@ const Navigation = ({ activeSection }: NavigationProps) => {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`font-inter font-medium transition-all duration-300 hover:text-wedding-gold ${
+                className={`font-inter font-medium transition-all duration-300 hover:text-wedding-brick ${
                   activeSection === item.id
-                    ? "text-wedding-gold"
+                    ? "text-wedding-brick"
                     : isScrolled
                     ? "text-gray-700"
                     : "text-white"
