@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Search, Users, Calendar, Check, X, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -39,98 +40,33 @@ const RsvpSection = () => {
       const trimmedFirstName = firstName.trim();
       const trimmedLastName = lastName.trim();
       
-      console.log('=== RSVP SEARCH DEBUG ===');
       console.log('Searching for:', { firstName: trimmedFirstName, lastName: trimmedLastName });
-      console.log('First name length:', trimmedFirstName.length);
-      console.log('Last name length:', trimmedLastName.length);
-      console.log('First name bytes:', [...trimmedFirstName].map(c => c.charCodeAt(0)));
-      console.log('Last name bytes:', [...trimmedLastName].map(c => c.charCodeAt(0)));
       
-      // First, let's get all guests to see what's actually in the database
-      console.log('Step 1: Getting all guests for comparison...');
-      const { data: allGuests, error: allError } = await supabase
-        .from('guests')
-        .select('*');
-      
-      console.log('All guests in database:', allGuests);
-      console.log('All guests error:', allError);
-      
-      if (allGuests) {
-        allGuests.forEach((guest, index) => {
-          console.log(`Guest ${index + 1}:`, {
-            name: guest.name,
-            surname: guest.surname,
-            nameLength: guest.name?.length,
-            surnameLength: guest.surname?.length,
-            nameBytes: guest.name ? [...guest.name].map(c => c.charCodeAt(0)) : null,
-            surnameBytes: guest.surname ? [...guest.surname].map(c => c.charCodeAt(0)) : null
-          });
-        });
-      }
-
-      // Strategy 1: Try exact case-sensitive match
-      console.log('Step 2: Trying exact case-sensitive match...');
+      // Try exact match first
       let { data: results, error } = await supabase
         .from('guests')
         .select('*')
         .eq('name', trimmedFirstName)
         .eq('surname', trimmedLastName);
 
-      console.log('Exact search query:', `name='${trimmedFirstName}' AND surname='${trimmedLastName}'`);
       console.log('Exact search results:', results);
-      console.log('Exact search error:', error);
 
-      if (results && results.length > 0) {
-        console.log('Found exact match!');
-      } else {
-        // Strategy 2: Try case-insensitive with separate queries
-        console.log('Step 3: Trying case-insensitive with OR logic...');
+      // If no exact match, try case-insensitive search
+      if (!results || results.length === 0) {
+        console.log('Trying case-insensitive search...');
         
-        // Try finding by first name only
-        const { data: firstNameResults } = await supabase
+        ({ data: results, error } = await supabase
           .from('guests')
           .select('*')
-          .ilike('name', trimmedFirstName);
+          .ilike('name', trimmedFirstName)
+          .ilike('surname', trimmedLastName));
         
-        console.log('First name only results:', firstNameResults);
-        
-        // Try finding by last name only
-        const { data: lastNameResults } = await supabase
-          .from('guests')
-          .select('*')
-          .ilike('surname', trimmedLastName);
-        
-        console.log('Last name only results:', lastNameResults);
-        
-        // Now try the combined search with proper case-insensitive matching
-        const { data: caseInsensitiveResults, error: caseError } = await supabase
-          .from('guests')
-          .select('*')
-          .or(`and(name.ilike.${trimmedFirstName},surname.ilike.${trimmedLastName})`);
+        console.log('Case-insensitive search results:', results);
+      }
 
-        console.log('Case-insensitive search query:', `name ILIKE '${trimmedFirstName}' AND surname ILIKE '${trimmedLastName}'`);
-        console.log('Case-insensitive search results:', caseInsensitiveResults);
-        console.log('Case-insensitive search error:', caseError);
-
-        if (caseInsensitiveResults && caseInsensitiveResults.length > 0) {
-          results = caseInsensitiveResults;
-          console.log('Found case-insensitive match!');
-        } else {
-          // Strategy 3: Try partial matching with wildcards
-          console.log('Step 4: Trying partial matching...');
-          const { data: partialResults, error: partialError } = await supabase
-            .from('guests')
-            .select('*')
-            .or(`name.ilike.%${trimmedFirstName}%,surname.ilike.%${trimmedLastName}%`);
-          
-          console.log('Partial search results:', partialResults);
-          console.log('Partial search error:', partialError);
-          
-          if (partialResults && partialResults.length > 0) {
-            results = partialResults;
-            console.log('Found partial match!');
-          }
-        }
+      if (error) {
+        console.error('Search error:', error);
+        throw error;
       }
 
       if (results && results.length > 0) {
@@ -169,7 +105,7 @@ const RsvpSection = () => {
       }
 
       // No matches found
-      console.log('No matches found for any search strategy');
+      console.log('No matches found');
       toast({
         title: "Ospite non trovato",
         description: `Non riusciamo a trovare "${trimmedFirstName} ${trimmedLastName}" nella lista degli invitati. Verifica l'ortografia o contattaci.`,
