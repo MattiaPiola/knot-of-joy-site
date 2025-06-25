@@ -9,8 +9,8 @@ interface Guest {
   surname: string;
   family_id: number;
   invite_type: string;
-  confirmation_status: boolean;
-  notes: string;
+  confirmation_status: boolean | null;
+  notes: string | null;
 }
 
 export const useRsvpLogic = () => {
@@ -36,7 +36,12 @@ export const useRsvpLogic = () => {
       const trimmedFirstName = firstName.trim();
       const trimmedLastName = lastName.trim();
       
-      console.log('Searching for:', { firstName: trimmedFirstName, lastName: trimmedLastName });
+      console.log('Searching for guest with exact parameters:', { 
+        firstName: trimmedFirstName, 
+        lastName: trimmedLastName,
+        firstNameLength: trimmedFirstName.length,
+        lastNameLength: trimmedLastName.length
+      });
       
       // Try exact match first
       let { data: results, error } = await supabase
@@ -46,6 +51,7 @@ export const useRsvpLogic = () => {
         .eq('surname', trimmedLastName);
 
       console.log('Exact search results:', results);
+      console.log('Search error (if any):', error);
 
       // If no exact match, try case-insensitive search
       if (!results || results.length === 0) {
@@ -58,6 +64,18 @@ export const useRsvpLogic = () => {
           .ilike('surname', trimmedLastName));
         
         console.log('Case-insensitive search results:', results);
+      }
+
+      // If still no results, try partial matches
+      if (!results || results.length === 0) {
+        console.log('Trying partial match search...');
+        
+        ({ data: results, error } = await supabase
+          .from('guests')
+          .select('*')
+          .or(`name.ilike.%${trimmedFirstName}%,surname.ilike.%${trimmedLastName}%`));
+        
+        console.log('Partial match search results:', results);
       }
 
       if (error) {
@@ -85,7 +103,7 @@ export const useRsvpLogic = () => {
         setFoundGuests(familyGuests || []);
         setInviteType(mainGuest.invite_type || '');
         
-        // Initialize notes state
+        // Initialize notes state, handling null values
         const notesMap: {[key: number]: string} = {};
         familyGuests?.forEach(guest => {
           notesMap[guest.id] = guest.notes || '';
@@ -101,7 +119,7 @@ export const useRsvpLogic = () => {
       }
 
       // No matches found
-      console.log('No matches found');
+      console.log('No matches found for:', trimmedFirstName, trimmedLastName);
       toast({
         title: "Ospite non trovato",
         description: `Non riusciamo a trovare "${trimmedFirstName} ${trimmedLastName}" nella lista degli invitati. Verifica l'ortografia o contattaci.`,

@@ -8,8 +8,8 @@ interface Guest {
   surname: string;
   family_id: number;
   invite_type: string;
-  confirmation_status: boolean;
-  notes: string;
+  confirmation_status: boolean | null;
+  notes: string | null;
 }
 
 interface InviteDetailsProps {
