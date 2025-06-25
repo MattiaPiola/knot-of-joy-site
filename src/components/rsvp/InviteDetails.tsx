@@ -1,9 +1,10 @@
 
-import { Check, X, MessageSquare } from "lucide-react";
+import { Check, X, MessageSquare, Save } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 interface Guest {
-  id: number; // Keep as number - Supabase JS converts bigint to number automatically
+  id: number;
   name: string;
   surname: string;
   family_id: number;
@@ -16,37 +17,60 @@ interface InviteDetailsProps {
   guests: Guest[];
   inviteType: string;
   guestNotes: {[key: number]: string};
+  hasUnsavedChanges: boolean;
+  isSaving: boolean;
   onConfirmation: (guestId: number, confirmed: boolean) => void;
   onNotesChange: (guestId: number, notes: string) => void;
+  onSubmit: () => void;
 }
 
 const InviteDetails = ({ 
   guests, 
   inviteType, 
   guestNotes, 
+  hasUnsavedChanges,
+  isSaving,
   onConfirmation, 
-  onNotesChange 
+  onNotesChange,
+  onSubmit
 }: InviteDetailsProps) => {
-  const getInviteTypeLabel = (type: string) => {
+  const getInviteTypeMessage = (type: string) => {
     switch (type?.toLowerCase()) {
-      case 'lunch':
-        return 'Pranzo completo';
-      case 'cake':
-        return 'Solo taglio torta';
+      case 'pranzo':
+        return {
+          title: 'Pranzo di Nozze',
+          message: 'Siete invitati al pranzo di nozze! Vi aspettiamo alle ore 13:00 presso Villa dei Fiori per festeggiare insieme questo giorno speciale. 🍽️✨',
+          color: 'bg-green-50 border-green-200 text-green-800'
+        };
+      case 'torta':
+        return {
+          title: 'Taglio della Torta',
+          message: 'Siete invitati al taglio della torta! Vi aspettiamo alle ore 17:00 presso Villa dei Fiori per il momento più dolce della giornata. 🍰💕',
+          color: 'bg-yellow-50 border-yellow-200 text-yellow-800'
+        };
       default:
-        return 'Invito speciale';
+        return {
+          title: 'Invito Speciale',
+          message: 'Grazie per essere parte della nostra vita! 💕',
+          color: 'bg-wedding-dust/20 border-wedding-dust/30 text-wedding-brick'
+        };
     }
   };
 
+  const inviteInfo = getInviteTypeMessage(inviteType);
+
   return (
     <div className="mt-8 p-6 bg-wedding-cream/50 rounded-lg border-2 border-wedding-dust/20 shadow-lg">
-      <div className="mb-4">
-        <h4 className="font-playfair text-xl font-bold text-wedding-brick mb-2">
+      <div className="mb-6">
+        <h4 className="font-playfair text-xl font-bold text-wedding-brick mb-4">
           Dettagli Invito
         </h4>
-        <div className="bg-wedding-dust/20 p-3 rounded-lg border border-wedding-dust/30">
-          <p className="font-inter font-medium text-wedding-brick">
-            Tipo di invito: {getInviteTypeLabel(inviteType)}
+        <div className={`p-4 rounded-lg border-2 ${inviteInfo.color}`}>
+          <h5 className="font-inter font-bold text-lg mb-2">
+            {inviteInfo.title}
+          </h5>
+          <p className="font-inter">
+            {inviteInfo.message}
           </p>
         </div>
       </div>
@@ -93,13 +117,33 @@ const InviteDetails = ({
               <Textarea
                 value={guestNotes[guest.id] || ''}
                 onChange={(e) => onNotesChange(guest.id, e.target.value)}
-                placeholder="Allergie alimentari, esigenze speciali, seggiolino bambini, ecc..."
+                placeholder="Allergie alimentari, intolleranze, esigenze speciali, seggiolino per bambini, menu vegetariano, accompagnatori, richieste particolari, ecc..."
                 className="w-full text-sm border-wedding-dust/30 focus:border-wedding-brick focus:ring-wedding-brick/20"
-                rows={2}
+                rows={3}
               />
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="mt-6 pt-4 border-t border-wedding-dust/20">
+        <Button
+          onClick={onSubmit}
+          disabled={!hasUnsavedChanges || isSaving}
+          className={`w-full font-inter font-medium py-3 px-6 rounded-lg transition-all duration-200 ${
+            hasUnsavedChanges 
+              ? 'bg-wedding-brick text-white hover:bg-wedding-brick/90 hover:scale-105 shadow-lg' 
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          }`}
+        >
+          <Save className="w-4 h-4 mr-2" />
+          {isSaving ? 'Salvando...' : hasUnsavedChanges ? 'Salva Modifiche' : 'Modifiche Salvate'}
+        </Button>
+        {hasUnsavedChanges && (
+          <p className="text-sm text-orange-600 mt-2 text-center">
+            Hai modifiche non salvate. Clicca "Salva Modifiche" per confermare.
+          </p>
+        )}
       </div>
     </div>
   );

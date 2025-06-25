@@ -10,9 +10,12 @@ const RsvpSection = () => {
     foundGuests,
     inviteType,
     guestNotes,
+    hasUnsavedChanges,
+    isSaving,
     handleSearch,
     handleConfirmation,
-    handleNotesChange
+    handleNotesChange,
+    handleSubmit
   } = useRsvpLogic();
 
   return (
@@ -36,8 +39,11 @@ const RsvpSection = () => {
               guests={foundGuests}
               inviteType={inviteType}
               guestNotes={guestNotes}
+              hasUnsavedChanges={hasUnsavedChanges}
+              isSaving={isSaving}
               onConfirmation={handleConfirmation}
               onNotesChange={handleNotesChange}
+              onSubmit={handleSubmit}
             />
           )}
 
