@@ -14,20 +14,20 @@ export const useScrollAnimation = () => {
         });
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -20% 0px'
+        threshold: 0.15,
+        rootMargin: '0px 0px -10% 0px'
       }
     );
 
-    // Add a small delay to ensure DOM is ready
+    // Wait for DOM to be ready and observe sections
     const timer = setTimeout(() => {
-      const sections = document.querySelectorAll('section[id], div[id]');
+      const sections = document.querySelectorAll('section[id]');
       sections.forEach(section => {
         if (section.id && section.id !== 'hero') {
           observer.observe(section);
         }
       });
-    }, 100);
+    }, 300);
 
     return () => {
       clearTimeout(timer);

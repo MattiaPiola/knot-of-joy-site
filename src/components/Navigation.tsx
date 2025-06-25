@@ -38,7 +38,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-white/95 backdrop-blur-md shadow-lg"
-          : "bg-transparent"
+          : "bg-black/20 backdrop-blur-sm"
       }`}
     >
       <div className="container mx-auto px-6 py-4">
@@ -64,7 +64,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
                     ? "text-wedding-dust"
                     : isScrolled
                     ? "text-gray-700"
-                    : "text-white"
+                    : "text-white drop-shadow-lg"
                 }`}
               >
                 {item.label}
@@ -73,7 +73,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
           </div>
 
           <div className="md:hidden">
-            <button className={`text-2xl ${isScrolled ? "text-gray-700" : "text-white"}`}>
+            <button className={`text-2xl ${isScrolled ? "text-gray-700" : "text-white drop-shadow-lg"}`}>
               ☰
             </button>
           </div>
