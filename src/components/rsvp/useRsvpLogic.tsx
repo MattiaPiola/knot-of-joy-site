@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Guest {
-  id: number;
+  id: number; // Keep as number - Supabase JS converts bigint to number automatically
   name: string;
   surname: string;
   family_id: number;
@@ -36,74 +36,48 @@ export const useRsvpLogic = () => {
       const trimmedFirstName = firstName.trim();
       const trimmedLastName = lastName.trim();
       
-      console.log('Searching for guest with exact parameters:', { 
+      console.log('=== RSVP SEARCH DEBUG ===');
+      console.log('Searching for:', { 
         firstName: trimmedFirstName, 
-        lastName: trimmedLastName,
-        firstNameLength: trimmedFirstName.length,
-        lastNameLength: trimmedLastName.length
+        lastName: trimmedLastName 
       });
       
-      // Try exact match first
-      let { data: results, error } = await supabase
+      // Simple exact match search
+      const { data: results, error } = await supabase
         .from('guests')
         .select('*')
         .eq('name', trimmedFirstName)
         .eq('surname', trimmedLastName);
 
-      console.log('Exact search results:', results);
-      console.log('Search error (if any):', error);
-
-      // If no exact match, try case-insensitive search
-      if (!results || results.length === 0) {
-        console.log('Trying case-insensitive search...');
-        
-        ({ data: results, error } = await supabase
-          .from('guests')
-          .select('*')
-          .ilike('name', trimmedFirstName)
-          .ilike('surname', trimmedLastName));
-        
-        console.log('Case-insensitive search results:', results);
-      }
-
-      // If still no results, try partial matches
-      if (!results || results.length === 0) {
-        console.log('Trying partial match search...');
-        
-        ({ data: results, error } = await supabase
-          .from('guests')
-          .select('*')
-          .or(`name.ilike.%${trimmedFirstName}%,surname.ilike.%${trimmedLastName}%`));
-        
-        console.log('Partial match search results:', results);
-      }
-
+      console.log('Raw Supabase response:', { results, error });
+      
       if (error) {
-        console.error('Search error:', error);
+        console.error('Supabase error:', error);
         throw error;
       }
 
       if (results && results.length > 0) {
+        console.log('Found guests:', results);
         const mainGuest = results[0];
-        console.log('Main guest found:', mainGuest);
         
-        // Get family members
+        // Get all family members
         const { data: familyGuests, error: familyError } = await supabase
           .from('guests')
           .select('*')
           .eq('family_id', mainGuest.family_id);
+
+        console.log('Family guests:', familyGuests);
 
         if (familyError) {
           console.error('Family search error:', familyError);
           throw familyError;
         }
 
-        console.log('Family guests:', familyGuests);
-
+        // Set the found guests
         setFoundGuests(familyGuests || []);
         setInviteType(mainGuest.invite_type || '');
         
-        // Initialize notes state, handling null values
+        // Initialize notes state
         const notesMap: {[key: number]: string} = {};
         familyGuests?.forEach(guest => {
           notesMap[guest.id] = guest.notes || '';
@@ -119,16 +93,16 @@ export const useRsvpLogic = () => {
       }
 
       // No matches found
-      console.log('No matches found for:', trimmedFirstName, trimmedLastName);
+      console.log('No guests found with exact match');
+      setFoundGuests([]);
       toast({
         title: "Ospite non trovato",
         description: `Non riusciamo a trovare "${trimmedFirstName} ${trimmedLastName}" nella lista degli invitati. Verifica l'ortografia o contattaci.`,
         variant: "destructive",
       });
-      setFoundGuests([]);
 
     } catch (error) {
-      console.error('Error searching for guest:', error);
+      console.error('Error in handleSearch:', error);
       toast({
         title: "Errore",
         description: "Si è verificato un errore durante la ricerca. Riprova più tardi.",
@@ -143,7 +117,7 @@ export const useRsvpLogic = () => {
     try {
       const notes = guestNotes[guestId] || '';
       
-      console.log('Updating guest:', { guestId, confirmed, notes });
+      console.log('Updating guest confirmation:', { guestId, confirmed, notes });
       
       const { error } = await supabase
         .from('guests')

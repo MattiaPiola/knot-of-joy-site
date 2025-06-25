@@ -3,7 +3,7 @@ import { Check, X, MessageSquare } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 
 interface Guest {
-  id: number;
+  id: number; // Keep as number - Supabase JS converts bigint to number automatically
   name: string;
   surname: string;
   family_id: number;
