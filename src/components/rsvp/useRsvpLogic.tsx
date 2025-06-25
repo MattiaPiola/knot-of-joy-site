@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,94 +20,116 @@ export const useRsvpLogic = () => {
   const { toast } = useToast();
 
   const handleSearch = async (firstName: string, lastName: string) => {
-    if (!firstName.trim() || !lastName.trim()) {
-      toast({
-        title: "Inserisci nome e cognome",
-        description: "Abbiamo bisogno del tuo nome e cognome completi per trovare i dettagli del tuo invito.",
-        variant: "destructive",
-      });
-      return;
-    }
+    console.log('=== HARDCODED SEARCH TEST ===');
+    console.log('User input received:', { firstName, lastName });
+    
+    // HARDCODE VALUES FOR TESTING
+    const hardcodedFirstName = "Prova";
+    const hardcodedLastName = "Provoni";
+    
+    console.log('Using hardcoded values:', { hardcodedFirstName, hardcodedLastName });
 
     setIsSearching(true);
     
     try {
-      const trimmedFirstName = firstName.trim();
-      const trimmedLastName = lastName.trim();
+      console.log('Step 1: About to make Supabase call...');
       
-      console.log('=== RSVP SEARCH DEBUG ===');
-      console.log('Searching for:', { 
-        firstName: trimmedFirstName, 
-        lastName: trimmedLastName 
-      });
-      
-      // Simple exact match search
-      const { data: results, error } = await supabase
+      // Make the Supabase call with hardcoded values
+      const supabaseCall = supabase
         .from('guests')
         .select('*')
-        .eq('name', trimmedFirstName)
-        .eq('surname', trimmedLastName);
-
-      console.log('Raw Supabase response:', { results, error });
+        .eq('name', hardcodedFirstName)
+        .eq('surname', hardcodedLastName);
+      
+      console.log('Step 2: Supabase query constructed, executing...');
+      
+      const { data: results, error } = await supabaseCall;
+      
+      console.log('Step 3: Supabase response received');
+      console.log('Results:', results);
+      console.log('Error:', error);
+      console.log('Results type:', typeof results);
+      console.log('Results length:', results?.length);
+      console.log('Is results array?', Array.isArray(results));
       
       if (error) {
-        console.error('Supabase error:', error);
+        console.error('Step 4: Error detected:', error);
         throw error;
       }
 
-      if (results && results.length > 0) {
-        console.log('Found guests:', results);
-        const mainGuest = results[0];
+      console.log('Step 5: No error, checking results...');
+      
+      if (results) {
+        console.log('Step 6: Results exist, length:', results.length);
         
-        // Get all family members
-        const { data: familyGuests, error: familyError } = await supabase
-          .from('guests')
-          .select('*')
-          .eq('family_id', mainGuest.family_id);
+        if (results.length > 0) {
+          console.log('Step 7: Found guests, processing...');
+          const mainGuest = results[0];
+          console.log('Main guest:', mainGuest);
+          
+          // Get all family members
+          console.log('Step 8: Getting family members for family_id:', mainGuest.family_id);
+          
+          const { data: familyGuests, error: familyError } = await supabase
+            .from('guests')
+            .select('*')
+            .eq('family_id', mainGuest.family_id);
 
-        console.log('Family guests:', familyGuests);
+          console.log('Step 9: Family search complete');
+          console.log('Family guests:', familyGuests);
+          console.log('Family error:', familyError);
 
-        if (familyError) {
-          console.error('Family search error:', familyError);
-          throw familyError;
+          if (familyError) {
+            console.error('Step 10: Family search error:', familyError);
+            throw familyError;
+          }
+
+          console.log('Step 11: Setting state with found guests');
+          
+          // Set the found guests
+          setFoundGuests(familyGuests || []);
+          setInviteType(mainGuest.invite_type || '');
+          
+          // Initialize notes state
+          const notesMap: {[key: number]: string} = {};
+          familyGuests?.forEach(guest => {
+            notesMap[guest.id] = guest.notes || '';
+          });
+          setGuestNotes(notesMap);
+          
+          console.log('Step 12: State updated successfully');
+          
+          toast({
+            title: "Invito trovato!",
+            description: `Ciao ${mainGuest.name}! Ecco i dettagli del tuo invito.`,
+          });
+          
+          return;
+        } else {
+          console.log('Step 7: Results array is empty');
         }
-
-        // Set the found guests
-        setFoundGuests(familyGuests || []);
-        setInviteType(mainGuest.invite_type || '');
-        
-        // Initialize notes state
-        const notesMap: {[key: number]: string} = {};
-        familyGuests?.forEach(guest => {
-          notesMap[guest.id] = guest.notes || '';
-        });
-        setGuestNotes(notesMap);
-        
-        toast({
-          title: "Invito trovato!",
-          description: `Ciao ${mainGuest.name}! Ecco i dettagli del tuo invito.`,
-        });
-        
-        return;
+      } else {
+        console.log('Step 6: Results is null/undefined');
       }
 
       // No matches found
-      console.log('No guests found with exact match');
+      console.log('Step 13: No guests found, setting empty array');
       setFoundGuests([]);
       toast({
         title: "Ospite non trovato",
-        description: `Non riusciamo a trovare "${trimmedFirstName} ${trimmedLastName}" nella lista degli invitati. Verifica l'ortografia o contattaci.`,
+        description: `Non riusciamo a trovare "${hardcodedFirstName} ${hardcodedLastName}" nella lista degli invitati. Verifica l'ortografia o contattaci.`,
         variant: "destructive",
       });
 
     } catch (error) {
-      console.error('Error in handleSearch:', error);
+      console.error('Step ERROR: Exception caught:', error);
       toast({
         title: "Errore",
         description: "Si è verificato un errore durante la ricerca. Riprova più tardi.",
         variant: "destructive",
       });
     } finally {
+      console.log('Step FINAL: Setting isSearching to false');
       setIsSearching(false);
     }
   };
