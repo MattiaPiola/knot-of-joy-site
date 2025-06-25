@@ -59,9 +59,9 @@ const Navigation = ({ activeSection }: NavigationProps) => {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`font-inter font-medium transition-all duration-300 hover:text-wedding-brick ${
+                className={`font-inter font-medium transition-all duration-300 hover:text-wedding-dust ${
                   activeSection === item.id
-                    ? "text-wedding-brick"
+                    ? "text-wedding-dust"
                     : isScrolled
                     ? "text-gray-700"
                     : "text-white"

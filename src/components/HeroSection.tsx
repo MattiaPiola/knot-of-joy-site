@@ -38,7 +38,7 @@ const HeroSection = () => {
         
         <button
           onClick={() => document.getElementById('date-venue')?.scrollIntoView({ behavior: 'smooth' })}
-          className="inline-flex items-center font-inter font-medium text-lg bg-wedding-brick text-wedding-cream px-8 py-3 rounded-full hover:bg-wedding-brick/90 hover:scale-105 transition-all duration-300 shadow-lg mt-8"
+          className="inline-flex items-center font-inter font-medium text-lg bg-wedding-dust text-white px-8 py-3 rounded-full hover:bg-wedding-dust/90 hover:scale-105 transition-all duration-300 shadow-lg mt-8"
         >
           Scopri di più
           <span className="ml-2">↓</span>

@@ -9,21 +9,30 @@ export const useScrollAnimation = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setVisibleSections(prev => new Set(prev).add(entry.target.id));
+            setVisibleSections(prev => new Set([...prev, entry.target.id]));
           }
         });
       },
       {
         threshold: 0.1,
-        rootMargin: '50px 0px -50px 0px'
+        rootMargin: '0px 0px -20% 0px'
       }
     );
 
-    // Observe all sections
-    const sections = document.querySelectorAll('section[id]');
-    sections.forEach(section => observer.observe(section));
+    // Add a small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      const sections = document.querySelectorAll('section[id], div[id]');
+      sections.forEach(section => {
+        if (section.id && section.id !== 'hero') {
+          observer.observe(section);
+        }
+      });
+    }, 100);
 
-    return () => observer.disconnect();
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
   }, []);
 
   return visibleSections;

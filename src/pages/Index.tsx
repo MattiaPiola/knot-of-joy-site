@@ -38,13 +38,13 @@ const Index = () => {
   }, []);
 
   const getSectionClasses = (sectionId: string) => {
-    const baseClasses = "transition-all duration-1000 ease-out";
+    const baseClasses = "transition-all duration-1000 ease-out transform";
     const isVisible = visibleSections.has(sectionId);
     
     return `${baseClasses} ${
       isVisible 
         ? "opacity-100 translate-y-0" 
-        : "opacity-0 translate-y-8"
+        : "opacity-0 translate-y-12"
     }`;
   };
 
@@ -52,21 +52,21 @@ const Index = () => {
     <div className="min-h-screen bg-wedding-cream">
       <Navigation activeSection={activeSection} />
       <HeroSection />
-      <div className={getSectionClasses("date-venue")}>
+      <section id="date-venue" className={getSectionClasses("date-venue")}>
         <DateVenueSection />
-      </div>
-      <div className={getSectionClasses("parking")}>
+      </section>
+      <section id="parking" className={getSectionClasses("parking")}>
         <ParkingSection />
-      </div>
-      <div className={getSectionClasses("party")}>
+      </section>
+      <section id="party" className={getSectionClasses("party")}>
         <PartySection />
-      </div>
-      <div className={getSectionClasses("gifts")}>
+      </section>
+      <section id="gifts" className={getSectionClasses("gifts")}>
         <GiftSection />
-      </div>
-      <div className={getSectionClasses("rsvp")}>
+      </section>
+      <section id="rsvp" className={getSectionClasses("rsvp")}>
         <RsvpSection />
-      </div>
+      </section>
       <Footer />
     </div>
   );
