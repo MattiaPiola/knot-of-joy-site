@@ -9,6 +9,7 @@ const RsvpSection = () => {
     isSearching,
     foundGuests,
     inviteType,
+    searchedName,
     guestNotes,
     hasUnsavedChanges,
     isSaving,
@@ -34,10 +35,11 @@ const RsvpSection = () => {
         <div className="max-w-2xl mx-auto">
           <SearchForm onSearch={handleSearch} isSearching={isSearching} />
 
-          {foundGuests.length > 0 && (
+          {(foundGuests.length > 0 || inviteType === 'not_found') && (
             <InviteDetails
               guests={foundGuests}
               inviteType={inviteType}
+              searchedName={searchedName}
               guestNotes={guestNotes}
               hasUnsavedChanges={hasUnsavedChanges}
               isSaving={isSaving}

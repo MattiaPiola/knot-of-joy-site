@@ -17,6 +17,7 @@ export const useRsvpLogic = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [foundGuests, setFoundGuests] = useState<Guest[]>([]);
   const [inviteType, setInviteType] = useState<string>("");
+  const [searchedName, setSearchedName] = useState<string>("");
   const [guestNotes, setGuestNotes] = useState<{[key: number]: string}>({});
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -59,6 +60,7 @@ export const useRsvpLogic = () => {
         // Set the found guests
         setFoundGuests(familyGuests || []);
         setInviteType(mainGuest.invite_type || '');
+        setSearchedName('');
         
         // Initialize notes state
         const notesMap: {[key: number]: string} = {};
@@ -73,13 +75,12 @@ export const useRsvpLogic = () => {
           description: `Ciao ${mainGuest.name}! Ecco i dettagli del tuo invito.`,
         });
       } else {
-        // No matches found
+        // No matches found - show gentle message instead of error
         setFoundGuests([]);
-        toast({
-          title: "Ospite non trovato",
-          description: `Non riusciamo a trovare "${firstName} ${lastName}" nella lista degli invitati. Verifica l'ortografia o contattaci.`,
-          variant: "destructive",
-        });
+        setInviteType('not_found');
+        setSearchedName(`${firstName} ${lastName}`);
+        setGuestNotes({});
+        setHasUnsavedChanges(false);
       }
 
     } catch (error) {
@@ -163,6 +164,7 @@ export const useRsvpLogic = () => {
     isSearching,
     foundGuests,
     inviteType,
+    searchedName,
     guestNotes,
     hasUnsavedChanges,
     isSaving,
