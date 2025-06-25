@@ -8,9 +8,11 @@ import PartySection from "@/components/PartySection";
 import GiftSection from "@/components/GiftSection";
 import RsvpSection from "@/components/RsvpSection";
 import Footer from "@/components/Footer";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("hero");
+  const visibleSections = useScrollAnimation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,15 +37,36 @@ const Index = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const getSectionClasses = (sectionId: string) => {
+    const baseClasses = "transition-all duration-1000 ease-out";
+    const isVisible = visibleSections.has(sectionId);
+    
+    return `${baseClasses} ${
+      isVisible 
+        ? "opacity-100 translate-y-0" 
+        : "opacity-0 translate-y-8"
+    }`;
+  };
+
   return (
     <div className="min-h-screen bg-wedding-cream">
       <Navigation activeSection={activeSection} />
       <HeroSection />
-      <DateVenueSection />
-      <ParkingSection />
-      <PartySection />
-      <GiftSection />
-      <RsvpSection />
+      <div className={getSectionClasses("date-venue")}>
+        <DateVenueSection />
+      </div>
+      <div className={getSectionClasses("parking")}>
+        <ParkingSection />
+      </div>
+      <div className={getSectionClasses("party")}>
+        <PartySection />
+      </div>
+      <div className={getSectionClasses("gifts")}>
+        <GiftSection />
+      </div>
+      <div className={getSectionClasses("rsvp")}>
+        <RsvpSection />
+      </div>
       <Footer />
     </div>
   );

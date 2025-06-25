@@ -42,19 +42,19 @@ const InviteDetails = ({
         return {
           title: '💕 Ti aspettiamo comunque!',
           message: `Caro/a ${searchedName}, ci dispiace tanto ma non ti troviamo nella lista degli invitati per il ricevimento. Tuttavia, saremo felicissimi di averti alla cerimonia religiosa! Il tuo affetto per noi vale più di qualsiasi invito formale. 🤗✨`,
-          color: 'bg-pink-50 border-pink-200 text-pink-800'
+          color: 'bg-rose-50 border-rose-300 text-rose-800'
         };
       case 'pranzo':
         return {
           title: 'Pranzo di Nozze',
           message: 'Siete invitati al pranzo di nozze! Vi aspettiamo alle ore 13:00 presso Villa dei Fiori per festeggiare insieme questo giorno speciale. 🍽️✨',
-          color: 'bg-green-50 border-green-200 text-green-800'
+          color: 'bg-wedding-brick/10 border-wedding-brick/30 text-wedding-brick'
         };
       case 'torta':
         return {
           title: 'Taglio della Torta',  
           message: 'Siete invitati al taglio della torta! Vi aspettiamo alle ore 17:00 presso Villa dei Fiori per il momento più dolce della giornata. 🍰💕',
-          color: 'bg-yellow-50 border-yellow-200 text-yellow-800'
+          color: 'bg-wedding-dust/10 border-wedding-dust/30 text-wedding-dust'
         };
       default:
         return {
@@ -68,12 +68,12 @@ const InviteDetails = ({
   const inviteInfo = getInviteTypeMessage(inviteType);
 
   return (
-    <div className="mt-8 p-6 bg-wedding-cream/50 rounded-lg border-2 border-wedding-dust/20 shadow-lg">
+    <div className="mt-8 p-6 bg-wedding-cream/50 rounded-lg border-2 border-wedding-dust/20 shadow-lg animate-fade-in">
       <div className="mb-6">
         <h4 className="font-playfair text-xl font-bold text-wedding-brick mb-4">
           Dettagli Invito
         </h4>
-        <div className={`p-4 rounded-lg border-2 ${inviteInfo.color}`}>
+        <div className={`p-4 rounded-lg border-2 ${inviteInfo.color} animate-scale-in`}>
           <h5 className="font-inter font-bold text-lg mb-2">
             {inviteInfo.title}
           </h5>
@@ -90,8 +90,12 @@ const InviteDetails = ({
             <h5 className="font-inter font-medium text-wedding-dust">
               Conferma partecipazione per:
             </h5>
-            {guests.map((guest) => (
-              <div key={guest.id} className="p-4 bg-white border border-wedding-brick/20 rounded-lg">
+            {guests.map((guest, index) => (
+              <div 
+                key={guest.id} 
+                className="p-4 bg-white border border-wedding-brick/20 rounded-lg animate-fade-in hover:shadow-md transition-all duration-300"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
                 <div className="flex items-center justify-between mb-3">
                   <span className="font-inter font-medium text-wedding-brick">
                     {guest.name} {guest.surname}
@@ -151,7 +155,7 @@ const InviteDetails = ({
               {isSaving ? 'Salvando...' : hasUnsavedChanges ? 'Salva Modifiche' : 'Modifiche Salvate'}
             </Button>
             {hasUnsavedChanges && (
-              <p className="text-sm text-orange-600 mt-2 text-center">
+              <p className="text-sm text-orange-600 mt-2 text-center animate-fade-in">
                 Hai modifiche non salvate. Clicca "Salva Modifiche" per confermare.
               </p>
             )}
