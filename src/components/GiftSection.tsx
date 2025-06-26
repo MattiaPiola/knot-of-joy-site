@@ -8,11 +8,11 @@ const GiftSection = () => {
   const { toast } = useToast();
 
   const bankDetails = {
-    accountName: "Francesca & Mattia Fondo Matrimonio",
-    bankName: "Banca Nazionale",
+    accountName: "Mattia Piola, Francesca Micotto",
+    bankName: "Banca Mediolanum",
     accountNumber: "1234567890",
     routingNumber: "987654321",
-    iban: "IT12 A123 4567 8901 2345 678901"
+    iban: "IT66D0306234210000002747216"
   };
 
   const copyToClipboard = (text: string, field: string) => {
@@ -35,8 +35,10 @@ const GiftSection = () => {
           </h2>
           <div className="w-24 h-px bg-wedding-gold mx-auto mb-6"></div>
           <p className="font-inter text-lg text-gray-600 max-w-2xl mx-auto">
-            La vostra presenza al nostro matrimonio è il regalo più grande. Tuttavia, se desiderate onorarci con un dono, 
-            saremmo grati per un contributo verso la nostra nuova casa insieme.
+            <p>Non serve farci un regalo!</p> 
+            <p>La casa c'è già ed è molto bella, Francesca ha già troppe scarpe e Mattia troppi giochi da tavolo!</p>
+            <p><strong>Piuttosto</strong>, fateci un vero regalo e venite alla cerimonia a celebrare con noi! </p>
+            <p>...se, tuttavia, proprio ci tenete a darci un contributo... ci dareste una mano a fare un salto in Giappone!  </p>
           </p>
         </div>
 
@@ -47,10 +49,10 @@ const GiftSection = () => {
                 <Gift className="w-8 h-8 text-wedding-gold" />
               </div>
               <h3 className="font-playfair text-2xl font-bold text-gray-800 mb-2">
-                Dettagli Bonifico Bancario
+                IBAN
               </h3>
               <p className="font-inter text-gray-600">
-                Per vostra comodità, potete trasferire i regali direttamente al nostro fondo matrimonio
+                <strong>Nota:</strong> Ricordatevi di includere il vostro nome nella causale così potremo ringraziarvi adeguatamente!
               </p>
             </div>
 
@@ -85,13 +87,6 @@ const GiftSection = () => {
                   </div>
                 </div>
               ))}
-            </div>
-
-            <div className="mt-8 p-4 bg-wedding-sage/20 rounded-lg">
-              <p className="font-inter text-sm text-gray-600 text-center">
-                <strong>Nota:</strong> Vi preghiamo di includere il vostro nome nella causale del bonifico così potremo ringraziarvi adeguatamente. 
-                Tutti i regali sono molto apprezzati e ci aiuteranno a iniziare la nostra nuova vita insieme.
-              </p>
             </div>
           </div>
         </div>

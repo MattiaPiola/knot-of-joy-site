@@ -22,7 +22,7 @@ const DateVenueSection = () => {
             <div className="space-y-3 font-inter text-wedding-dust">
               <div className="flex items-center justify-center space-x-2">
                 <Calendar className="w-4 h-4" />
-                <span>Venerdì, 25 Ottobre 2024</span>
+                <span>Sabato, 25 Ottobre 2025</span>
               </div>
               
               <div className="flex items-center justify-center space-x-2">

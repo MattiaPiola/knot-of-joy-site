@@ -8,7 +8,7 @@ const Footer = () => {
             Francesca & Mattia
           </h3>
           <p className="font-inter text-wedding-light">
-            25 Ottobre 2024
+            25 Ottobre 2025
           </p>
         </div>
 
