@@ -30,7 +30,7 @@ const HeroSection = () => {
           </p>
           
           <div className="font-playfair text-3xl md:text-4xl font-medium text-wedding-brick mb-2">
-            25 Ottobre 2024
+            25 Ottobre 2025
           </div>
           
           <div className="w-16 h-px bg-wedding-brick mx-auto opacity-40"></div>
