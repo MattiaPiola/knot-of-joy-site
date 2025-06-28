@@ -10,8 +10,6 @@ const GiftSection = () => {
   const bankDetails = {
     accountName: "Mattia Piola, Francesca Micotto",
     bankName: "Banca Mediolanum",
-    accountNumber: "1234567890",
-    routingNumber: "987654321",
     iban: "IT66D0306234210000002747216"
   };
 
@@ -64,8 +62,6 @@ const GiftSection = () => {
                       <label className="font-inter font-medium text-gray-700 text-sm uppercase tracking-wide">
                         {key === 'accountName' ? 'Intestatario' : 
                          key === 'bankName' ? 'Banca' :
-                         key === 'accountNumber' ? 'Numero Conto' :
-                         key === 'routingNumber' ? 'Codice ABI' :
                          key === 'iban' ? 'IBAN' : key}
                       </label>
                       <p className="font-inter text-gray-900 font-mono text-lg">

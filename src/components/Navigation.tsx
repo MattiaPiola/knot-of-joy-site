@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 
 interface NavigationProps {
@@ -20,7 +19,14 @@ const Navigation = ({ activeSection }: NavigationProps) => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      const navbar = document.querySelector("nav");
+      const navbarHeight = navbar ? navbar.clientHeight : 0;
+      const elementTop =
+        element.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({
+        top: elementTop - navbarHeight,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -29,7 +35,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
     { id: "date-venue", label: "Quando e Dove" },
     { id: "parking", label: "Parcheggio" },
     { id: "party", label: "Ricevimento" },
-    { id: "gifts", label: "Regali" },
+    { id: "gifts", label: "Regalo" },
     { id: "rsvp", label: "RSVP" },
   ];
 
@@ -47,13 +53,13 @@ const Navigation = ({ activeSection }: NavigationProps) => {
             className="cursor-pointer"
             onClick={() => scrollToSection("hero")}
           >
-            <img 
-              src="/lovable-uploads/d7cda7b5-b1ec-4669-aeeb-043e88557d72.png" 
-              alt="F & M" 
+            <img
+              src="/lovable-uploads/d7cda7b5-b1ec-4669-aeeb-043e88557d72.png"
+              alt="F & M"
               className="h-12 w-auto"
             />
           </div>
-          
+
           <div className="hidden md:flex space-x-8">
             {navItems.map((item) => (
               <button
@@ -73,7 +79,11 @@ const Navigation = ({ activeSection }: NavigationProps) => {
           </div>
 
           <div className="md:hidden">
-            <button className={`text-2xl ${isScrolled ? "text-gray-700" : "text-white drop-shadow-lg"}`}>
+            <button
+              className={`text-2xl ${
+                isScrolled ? "text-gray-700" : "text-white drop-shadow-lg"
+              }`}
+            >
               ☰
             </button>
           </div>
