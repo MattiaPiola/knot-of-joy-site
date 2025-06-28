@@ -40,19 +40,19 @@ const InviteDetails = ({
       case 'not_found':
         return {
           title: '💕 Ti aspettiamo comunque!',
-          message: `Caro/a ${searchedName}, ci dispiace tanto ma non ti troviamo nella lista degli invitati per il ricevimento. Tuttavia, saremo felicissimi di averti alla cerimonia religiosa! Il tuo affetto per noi vale più di qualsiasi invito formale. 🤗✨`,
+          message: `Ci spiace, ${searchedName ? ` ${searchedName.split(' ')[0]}` : ''}, purtroppo non risulti nella lista degli invitati al ricevimento. Perdonaci! 😢 Saremo comunque felicissimi di averti alla cerimonia a s. Domenico! Ti vogliamo bene! 🤗✨`,
           color: 'bg-rose-50 border-rose-300 text-rose-800'
         };
       case 'pranzo':
         return {
           title: 'Pranzo di Nozze',
-          message: 'Siete invitati al pranzo di nozze! Vi aspettiamo alle ore 13:00 presso Villa dei Fiori per festeggiare insieme questo giorno speciale. 🍽️✨',
+          message: 'Siete invitati al pranzo di nozze! Vi aspettiamo alle ore 13:00 presso Cascina Galizia per festeggiare insieme questo giorno speciale. 🍽️✨',
           color: 'bg-wedding-brick/10 border-wedding-brick/30 text-wedding-brick'
         };
       case 'torta':
         return {
           title: 'Taglio della Torta',  
-          message: 'Siete invitati al taglio della torta! Vi aspettiamo alle ore 17:00 presso Villa dei Fiori per il momento più dolce della giornata. 🍰💕',
+          message: 'Siete invitati al taglio della torta! Vi aspettiamo alle ore 17:00 presso Cascina Galizia per il momento più dolce della giornata. 🍰💕',
           color: 'bg-wedding-dust/10 border-wedding-dust/30 text-wedding-dust'
         };
       default:

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -32,8 +31,8 @@ export const useRsvpLogic = () => {
       const { data: results, error } = await supabase
         .from('guests')
         .select('*')
-        .eq('name', firstName)
-        .eq('surname', lastName);
+        .ilike('name', firstName)
+        .ilike('surname', lastName);
       
       console.log('Search results:', results);
       
