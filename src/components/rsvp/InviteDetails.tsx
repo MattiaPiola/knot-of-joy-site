@@ -1,4 +1,3 @@
-
 import { Check, X, MessageSquare, Save } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -122,6 +121,18 @@ const InviteDetails = ({
                       <X className="w-4 h-4" />
                     </button>
                   </div>
+                </div>
+                {/* Show RSVP status */}
+                <div className="mb-2">
+                  {guest.confirmation_status === null && (
+                    <span className="text-sm text-gray-500 italic">Non hai ancora risposto</span>
+                  )}
+                  {guest.confirmation_status === true && (
+                    <span className="text-sm text-green-600">Confermato</span>
+                  )}
+                  {guest.confirmation_status === false && (
+                    <span className="text-sm text-red-600">Non parteciperò</span>
+                  )}
                 </div>
                 
                 <div className="mt-3">
