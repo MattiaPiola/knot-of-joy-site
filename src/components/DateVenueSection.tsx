@@ -16,7 +16,7 @@ const DateVenueSection = () => {
           <div className="text-center bg-wedding-cream p-8 rounded-lg shadow-xl border-2 border-wedding-brick/20">
             <Calendar className="w-12 h-12 text-wedding-brick mx-auto mb-4" />
             <h3 className="font-playfair text-2xl font-bold text-wedding-brick mb-4">
-              Cerimonia Religiosa
+              Cerimonia
             </h3>
             
             <div className="space-y-3 font-inter text-wedding-dust">
@@ -50,7 +50,7 @@ const DateVenueSection = () => {
             <div className="space-y-3 font-inter text-wedding-brick">
               <div className="flex items-center justify-center space-x-2">
                 <Clock className="w-4 h-4" />
-                <span>13:30 - 23:00</span>
+                <span>13:30 - 20:00</span>
               </div>
               
               <div className="flex items-center justify-center space-x-2">
@@ -65,7 +65,7 @@ const DateVenueSection = () => {
               <p className="text-xs mt-4 bg-wedding-light/50 p-3 rounded">
                 Pranzo ore 13:30<br />
                 Taglio torta ore 16:30<br />
-                Musica e balli a seguire
+                A seguire Gerenza Group Live
               </p>
             </div>
           </div>

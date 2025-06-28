@@ -4,32 +4,18 @@ import { Car, MapPin } from "lucide-react";
 const ParkingSection = () => {
   const parkingSpots = [
     {
-      name: "Parcheggio Basilica",
-      description: "Parcheggio principale della Basilica di San Magno",
-      spaces: "30 posti",
+      name: "Piazza San Magno",
+      description: "Sagrato della Basilica di San Magno",
+      spaces: "1 posto",
       distance: "0 min a piedi",
-      note: "Riservato agli ospiti della cerimonia"
+      note: "Riservato alla sposa 😁"
     },
     {
-      name: "Parcheggio Via Volta",
-      description: "Via Alessandro Volta, 2 isolati dalla basilica",
-      spaces: "50 posti",
-      distance: "3 min a piedi",
-      note: "Gratuito nei giorni festivi"
-    },
-    {
-      name: "Parcheggio Strada",
-      description: "Via San Magno e strade limitrofe",
-      spaces: "Limitato",
-      distance: "1-5 min a piedi",
-      note: "Controllare la segnaletica per i limiti orari"
-    },
-    {
-      name: "Parcheggio Centro",
-      description: "Piazza San Magno, centro di Legnano",
-      spaces: "40 posti",
-      distance: "5 min a piedi",
-      note: "Disponibile dopo le 9:00"
+      name: "Parcheggio Via Girardelli",
+      description: "Via Girardelli, dietro la Polizia",
+      spaces: "350 posti",
+      distance: "2 min a piedi",
+      note: "A pagamento"
     }
   ];
 
