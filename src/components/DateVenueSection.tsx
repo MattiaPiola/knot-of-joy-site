@@ -62,11 +62,7 @@ const DateVenueSection = () => {
                 Cuggiono
               </p>
               
-              <p className="text-xs mt-4 bg-wedding-light/50 p-3 rounded">
-                Pranzo ore 13:30<br />
-                Taglio torta ore 16:30<br />
-                A seguire Gerenza Group Live
-              </p>
+              
             </div>
           </div>
         </div>
