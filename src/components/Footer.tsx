@@ -20,8 +20,8 @@ const Footer = () => {
 
         <p className="font-inter text-wedding-cream/80 text-xs">
           Per domande sul matrimonio, contattateci a{" "}
-          <a href="mailto:francesca.mattia.matrimonio@email.com" className="text-wedding-cream hover:underline transition-all duration-200">
-            francesca.mattia.matrimonio@email.com
+          <a href="mailto:info@piolotto.fyi" className="text-wedding-cream hover:underline transition-all duration-200">
+            info@piolotto.fyi
           </a>
         </p>
       </div>
