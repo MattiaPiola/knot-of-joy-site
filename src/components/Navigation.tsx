@@ -6,6 +6,7 @@ interface NavigationProps {
 
 const Navigation = ({ activeSection }: NavigationProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -83,9 +84,49 @@ const Navigation = ({ activeSection }: NavigationProps) => {
               className={`text-2xl ${
                 isScrolled ? "text-gray-700" : "text-white drop-shadow-lg"
               }`}
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Apri menu"
             >
               ☰
             </button>
+            {mobileMenuOpen && (
+              <>
+                {/* Overlay (semi-transparent, covers page) */}
+                <div
+                  className="fixed inset-0 z-40 bg-black/40"
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label="Chiudi menu"
+                />
+                {/* Sidebar (solid background) */}
+                <div className="fixed top-0 right-0 h-full w-72 z-50 bg-white opacity-100 shadow-lg flex flex-col items-center pt-24">
+                  <button
+                    className="absolute top-6 right-6 text-3xl text-gray-700"
+                    onClick={() => setMobileMenuOpen(false)}
+                    aria-label="Chiudi menu"
+                  >
+                    ×
+                  </button>
+                  <nav className="flex flex-col gap-8 w-full items-center">
+                    {navItems.map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => {
+                          scrollToSection(item.id);
+                          setMobileMenuOpen(false);
+                        }}
+                        className={`text-2xl font-inter font-medium w-full text-left px-8 py-2 ${
+                          activeSection === item.id
+                            ? "text-wedding-dust"
+                            : "text-gray-700"
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </nav>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
