@@ -23,7 +23,10 @@ export const useRsvpLogic = () => {
   const { toast } = useToast();
 
   const handleSearch = async (firstName: string, lastName: string) => {
-    console.log('Searching for:', { firstName, lastName });
+    // Trim spaces from names before searching
+    const trimmedFirstName = firstName.trim();
+    const trimmedLastName = lastName.trim();
+    console.log('Searching for:', { firstName: trimmedFirstName, lastName: trimmedLastName });
 
     setIsSearching(true);
     
@@ -31,8 +34,8 @@ export const useRsvpLogic = () => {
       const { data: results, error } = await supabase
         .from('guests')
         .select('*')
-        .ilike('name', firstName)
-        .ilike('surname', lastName);
+        .ilike('name', trimmedFirstName)
+        .ilike('surname', trimmedLastName);
       
       console.log('Search results:', results);
       
