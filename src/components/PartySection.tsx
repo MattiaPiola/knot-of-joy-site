@@ -10,7 +10,7 @@ const PartySection = () => {
       color: "wedding-brick"
     },
     {
-      time: "16:45",
+      time: "17:00",
       event: "Taglio della Torta",
       description: "Se magna di nuovo",
       icon: <Cake className="w-5 h-5" />,
