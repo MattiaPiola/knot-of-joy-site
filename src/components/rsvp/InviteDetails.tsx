@@ -40,7 +40,7 @@ const InviteDetails = ({
       case 'not_found':
         return {
           title: '💕 Ti aspettiamo comunque!',
-          message: `Ci spiace, ${searchedName ? ` ${searchedName.split(' ')[0]}` : ''}, purtroppo non risulti nella lista degli invitati al ricevimento. Perdonaci! 😢 Saremo comunque felicissimi di averti alla cerimonia a s. Magno! Ti vogliamo bene! 🤗✨<br> (Se però ti abbiamo invitato e qui non risulta, scrivici!)`,
+          message: `Ci spiace, ${searchedName ? ` ${searchedName.split(' ')[0]}` : ''}, purtroppo non risulti nella lista degli invitati al ricevimento. Perdonaci! 😢 Saremo comunque felicissimi di averti alla cerimonia a s. Magno! Ti vogliamo bene! 🤗✨ (Se però ti abbiamo invitato e qui non risulta, scrivici!)`,
           color: 'bg-rose-50 border-rose-300 text-rose-800'
         };
       case 'pranzo':
