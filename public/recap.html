@@ -12,29 +12,228 @@
       font-family: 'Inter', sans-serif;
     }
     .font-playfair { font-family: 'Playfair Display', serif; }
-    .bg-wedding-brick { background-color: #b85c5c; }
-    .text-wedding-brick { color: #b85c5c; }
-    .bg-wedding-dust { background-color: #b8a47e; }
-    .text-wedding-dust { color: #b8a47e; }
-    .bg-wedding-cream { background-color: #fdf6ee; }
+    .bg-wedding-brick { background-color: #AF562A; }
+    .text-wedding-brick { color: #AF562A; }
+    .bg-wedding-dust { background-color: #4B6382; }
+    .text-wedding-dust { color: #4B6382; }
+    .bg-wedding-cream { background-color: #FDF8F0; }
+    .text-wedding-cream { color: #b18d64; }
+    .dashboard-number {
+      font-size: 2.8rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .dashboard-label {
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .collapsible {
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+    }
+    .collapsible:hover {
+      background: #f5e9d7;
+    }
+    .collapsible-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .collapsible-content.open {
+      max-height: 400px;
+      transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    /* New: horizontal box helpers */
+    .hor-box {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem; /* reduced from 1.5rem */
+      border: 1.5px solid #e2cfa2;
+      border-radius: 1rem;
+      background: #fffdfa;
+      box-shadow: 0 2px 8px 0 #e2cfa220;
+      margin-bottom: 1.2rem; /* reduced from 1.5rem */
+      padding: 1.2rem 0.5rem; /* reduced horizontal padding */
+    }
+    @media (max-width: 768px) {
+      .hor-box {
+        flex-direction: column;
+        gap: 0.7rem; /* reduced from 1rem */
+        padding: 0.7rem 0.2rem;
+      }
+    }
+    .ver-box {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem; /* reduced from 1.5rem */
+    }
+    .dashboard-number-box {
+      flex: 1 1 0;
+      min-width: 0;
+      border-right: 1.5px solid #e2cfa2;
+      padding-right: 1.5rem;
+      margin-right: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .dashboard-number-box:last-child {
+      border-right: none;
+      padding-right: 0;
+      margin-right: 0;
+    }
+    .list-box {
+      flex: 1 1 0;
+      min-width: 0;
+      border-right: 1.5px solid #e2cfa2;
+      padding-right: 1.5rem;
+      margin-right: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .list-box:last-child {
+      border-right: none;
+      padding-right: 0;
+      margin-right: 0;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.01em;
+      text-align: center;
+      width: 100%;
+    }
+    .guest-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      width: 100%;
+    }
+    @media (max-width: 640px) {
+      .guest-list {
+        grid-template-columns: 1fr;
+      }
+    }
+    .prova {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .banner-message {
+      font-size: 1.35rem; /* slightly bigger */
+    }
+    .collapsible-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: auto;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      margin: 0 auto;
+      max-width: 100%;
+    }
+    .collapsible-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      padding: 0;
+      margin: 0;
+    }
+    .collapsible-btn {
+      width: 1.6rem;
+      height: 1.6rem;
+      min-width: 1.6rem;
+      min-height: 1.6rem;
+      margin-left: 0.5rem;
+      pointer-events: none;
+    }
+    #unconfirmed-content {
+      max-height: 320px;
+      overflow-y: auto;
+      margin-top: 0.2rem;
+      width: 100%;
+      padding: 0.5rem 0 0.5rem 0;
+    }
+    .unconfirmed-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    @media (max-width: 1024px) {
+      .unconfirmed-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 640px) {
+      .unconfirmed-list {
+        grid-template-columns: 1fr;
+      }
+    }
+    .unconfirmed-list li {
+      border-bottom: 1px solid #e2cfa233;
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+      font-size: 1rem;
+    }
   </style>
 </head>
 <body class="min-h-screen flex items-center justify-center bg-wedding-cream">
-  <div class="w-full max-w-2xl mx-auto p-8 rounded-2xl shadow-lg bg-white/90 border border-wedding-dust/30">
-    <h1 class="font-playfair text-3xl md:text-4xl text-center text-wedding-brick font-bold mb-8">Riepilogo Conferme Ospiti</h1>
-    <div id="recap-content" class="space-y-10">
-      <!-- I dati saranno caricati via JS -->
-      <div class="text-center text-wedding-dust">Caricamento...</div>
+  <div class="w-full max-w-4xl mx-auto p-0 md:p-8 rounded-2xl shadow-lg bg-white/90 border border-wedding-dust/30">
+    <div class="ver-box px-4 md:px-8 pb-8 pt-4">
+      <!-- Banner for the bride -->
+      <div class="prova hor-box bg-wedding-brick text-white font-playfair text-xl md:text-xl text-center py-4 rounded-xl shadow-sm tracking-wide items-center justify-center border-wedding-brick border-2 mb-0" style="margin-bottom:0.5rem;">
+        <span class="banner-message">Una pagina tutta per te, amore.❤️ Così sei più tranquilla 😁</span>
+      </div>
+      <h1 class="prova font-playfair text-3xl md:text-4xl text-center text-wedding-brick font-bold mb-2">Riepilogo Conferme Ospiti</h1>
+      <!-- Dashboard numbers -->
+      <div id="dashboard-numbers" class="hor-box items-stretch justify-center mb-0">
+        <!-- Filled by JS -->
+        <div class="dashboard-number-box text-center text-wedding-dust">Caricamento...</div>
+      </div>
+      <!-- Lists -->
+      <div id="recap-content" class="hor-box items-stretch justify-center mb-0">
+        <!-- Filled by JS -->
+        <div class="list-box text-center text-wedding-dust">Caricamento...</div>
+      </div>
+      <!-- Collapsible unconfirmed list -->
+      <div class="hor-box flex-col !gap-0 bg-wedding-cream/60 border-wedding-dust/60 items-center justify-center">
+        <div id="unconfirmed-toggle" class="collapsible collapsible-row px-4 py-3 rounded-lg font-inter text-wedding-brick font-semibold select-none" style="width:auto; margin:0 auto;">
+          <span class="collapsible-title">Ospiti non ancora confermati</span>
+          <svg id="unconfirmed-arrow" class="collapsible-btn transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </div>
+        <div id="unconfirmed-content" class="collapsible-content bg-white/80 rounded-b-lg shadow-inner border border-t-0 border-wedding-dust/40 w-full" style="max-height:0;">
+          <ul id="unconfirmed-list" class="unconfirmed-list"></ul>
+        </div>
+      </div>
+      <footer class="mt-8 text-center text-xs text-wedding-dust/70"></footer>
+        &copy; 2025 Francesca &amp; Mattia
+      </footer>
     </div>
-    <footer class="mt-12 text-center text-xs text-wedding-dust/70">
-      &copy; 2025 Francesca &amp; Mattia
-    </footer>
   </div>
   <script type="module">
     // Configura qui la tua URL e chiave pubblica di Supabase
     const SUPABASE_URL = "https://nfodyeejtmazwhhwtafh.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5mb2R5ZWVqdG1hendoaHd0YWZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwNzkyNjUsImV4cCI6MjA2NTY1NTI2NX0.FmUAFZvgRONArWDB9FWQiZOLJ9OFc1Wd762rU01i68M";
-
 
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
@@ -53,41 +252,113 @@
       return { data };
     }
 
+    async function fetchUnconfirmedGuests() {
+      // Prendi tutti gli ospiti non confermati
+      const { data, error } = await supabase
+        .from('guests')
+        .select('id,name,surname,invite_type,confirmation_status')
+        .or('confirmation_status.is.false,confirmation_status.is.null');
+      if (error) {
+        return { error };
+      }
+      return { data };
+    }
+
     function renderList(title, guests, color) {
+      // color: 'text-wedding-brick' or 'text-wedding-dust' or 'text-wedding-cream'
       return `
-        <div>
-          <h2 class="font-playfair text-2xl text-center ${color} font-semibold mb-2">${title}</h2>
-          <div class="text-center text-lg mb-3">
-            <span class="font-inter font-bold">${guests.length}</span> confermati
-          </div>
-          <ul class="divide-y divide-wedding-dust/20 bg-wedding-cream/60 rounded-lg shadow-inner max-h-64 overflow-auto">
+        <div style="width:100%;">
+          <h2 class="section-title font-playfair ${color}">${title}</h2>
+          <div class="text-center text-base md:text-lg mb-3"></div>
+          <ul class="guest-list divide-y divide-wedding-dust/20 bg-wedding-cream/60 rounded-lg shadow-inner max-h-64 overflow-auto">
             ${guests.map(g => `
-              <li class="py-2 px-3 font-inter text-wedding-brick">${g.name} ${g.surname}</li>
+              <li class="py-2 px-3 font-inter ${color}">${g.name} ${g.surname}</li>
             `).join('')}
           </ul>
         </div>
       `;
     }
 
-    async function main() {
-      const recap = document.getElementById('recap-content');
-      recap.innerHTML = '<div class="text-center text-wedding-dust">Caricamento...</div>';
-
-      const { data, error } = await fetchConfirmedGuests();
-      if (error) {
-        recap.innerHTML = '<div class="text-center text-red-600">Errore nel caricamento dati.</div>';
-        return;
-      }
-
-      const pranzo = data.filter(g => (g.invite_type || '').toLowerCase() === 'pranzo');
-      const torta = data.filter(g => (g.invite_type || '').toLowerCase() === 'torta');
-
-      recap.innerHTML = `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          ${renderList('Pranzo di Nozze', pranzo, 'text-wedding-brick')}
-          ${renderList('Taglio della Torta', torta, 'text-wedding-dust')}
+    function renderDashboardNumbers(total, pranzo, torta) {
+      return `
+        <div class="dashboard-number-box flex flex-col items-center justify-center">
+          <div class="dashboard-number text-wedding-cream" style="color:#CFA574;border-radius:0.5rem;padding:0.2em 0.7em;">${total}</div>
+          <div class="dashboard-label text-wedding-cream" style="color:#CFA574;">Totale Confermati</div>
+        </div>
+        <div class="dashboard-number-box flex flex-col items-center justify-center">
+          <div class="dashboard-number text-wedding-brick">${pranzo}</div>
+          <div class="dashboard-label text-wedding-brick/80">Pranzo di Nozze</div>
+        </div>
+        <div class="dashboard-number-box flex flex-col items-center justify-center">
+          <div class="dashboard-number text-wedding-dust">${torta}</div>
+          <div class="dashboard-label text-wedding-dust/80">Taglio della Torta</div>
         </div>
       `;
+    }
+
+    function renderUnconfirmedList(guests) {
+      if (!guests.length) {
+        return `<li class="py-3 px-4 text-center text-wedding-cream" style="grid-column: span 4;">Tutti hanno risposto! 🎉</li>`;
+      }
+      return guests.map(g => `
+        <li class="font-inter text-wedding-cream">${g.name} ${g.surname} <span class="ml-2 text-xs text-wedding-cream/80">(${g.invite_type || '—'})</span></li>
+      `).join('');
+    }
+
+    async function main() {
+      // Dashboard numbers
+      const dashboard = document.getElementById('dashboard-numbers');
+      dashboard.innerHTML = '<div class="dashboard-number-box text-center text-wedding-dust">Caricamento...</div>';
+
+      // Lists
+      const recap = document.getElementById('recap-content');
+      recap.innerHTML = '<div class="list-box text-center text-wedding-dust">Caricamento...</div>';
+
+      // Unconfirmed
+      const unconfirmedList = document.getElementById('unconfirmed-list');
+      unconfirmedList.innerHTML = '<li class="py-3 px-4 text-center text-wedding-dust">Caricamento...</li>';
+
+      // Fetch confirmed
+      const { data: confirmed, error: err1 } = await fetchConfirmedGuests();
+      if (err1) {
+        dashboard.innerHTML = recap.innerHTML = '<div class="dashboard-number-box text-center text-red-600">Errore nel caricamento dati.</div>';
+        return;
+      }
+      const pranzo = confirmed.filter(g => (g.invite_type || '').toLowerCase() === 'pranzo');
+      const torta = confirmed.filter(g => (g.invite_type || '').toLowerCase() === 'torta');
+
+      dashboard.innerHTML = renderDashboardNumbers(confirmed.length, pranzo.length, torta.length);
+      recap.innerHTML = `
+        <div class="list-box">${renderList('Pranzo di Nozze', pranzo, 'text-wedding-brick')}</div>
+        <div class="list-box">${renderList('Taglio della Torta', torta, 'text-wedding-dust')}</div>
+      `;
+
+      // Fetch unconfirmed
+      const { data: unconfirmed, error: err2 } = await fetchUnconfirmedGuests();
+      if (err2) {
+        unconfirmedList.innerHTML = '<li class="py-3 px-4 text-center text-red-600">Errore nel caricamento dati.</li>';
+        return;
+      }
+      unconfirmedList.innerHTML = renderUnconfirmedList(unconfirmed);
+
+      // Collapsible logic
+      const toggle = document.getElementById('unconfirmed-toggle');
+      const content = document.getElementById('unconfirmed-content');
+      const arrow = document.getElementById('unconfirmed-arrow');
+      let open = false;
+      content.classList.remove('open');
+      content.style.maxHeight = '0'; // Ensure collapsed on load
+      arrow.style.transform = 'rotate(0deg)';
+      toggle.addEventListener('click', () => {
+        open = !open;
+        content.classList.toggle('open', open);
+        if (open) {
+          content.style.maxHeight = content.scrollHeight + 'px';
+        } else {
+          content.style.maxHeight = '0';
+        }
+        arrow.style.transform = open ? 'rotate(180deg)' : 'rotate(0deg)';
+      });
     }
 
     main();
