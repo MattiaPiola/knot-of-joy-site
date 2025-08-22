@@ -25,8 +25,7 @@ const HeroSection = () => {
         
         <div className="text-center max-w-2xl mx-auto mb-8">
           <p className="font-inter text-xl md:text-2xl font-light leading-relaxed text-wedding-brick/90 mb-8">
-            Celebriamo insieme il nostro matrimonio!<br />
-            (Il sito è ancora un po' WIP, scusate.)
+            Celebriamo insieme il nostro matrimonio!
           </p>
           
           <div className="font-playfair text-3xl md:text-4xl font-medium text-wedding-brick mb-2">
