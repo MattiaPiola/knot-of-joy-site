@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Riepilogo Conferme Ospiti</title>
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,400|Inter:400,500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.11/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #fdf6ee;
+      font-family: 'Inter', sans-serif;
+    }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .bg-wedding-brick { background-color: #b85c5c; }
+    .text-wedding-brick { color: #b85c5c; }
+    .bg-wedding-dust { background-color: #b8a47e; }
+    .text-wedding-dust { color: #b8a47e; }
+    .bg-wedding-cream { background-color: #fdf6ee; }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-wedding-cream">
+  <div class="w-full max-w-2xl mx-auto p-8 rounded-2xl shadow-lg bg-white/90 border border-wedding-dust/30">
+    <h1 class="font-playfair text-3xl md:text-4xl text-center text-wedding-brick font-bold mb-8">Riepilogo Conferme Ospiti</h1>
+    <div id="recap-content" class="space-y-10">
+      <!-- I dati saranno caricati via JS -->
+      <div class="text-center text-wedding-dust">Caricamento...</div>
+    </div>
+    <footer class="mt-12 text-center text-xs text-wedding-dust/70">
+      &copy; 2025 Francesca &amp; Mattia
+    </footer>
+  </div>
+  <script type="module">
+    // Configura qui la tua URL e chiave pubblica di Supabase
+    const SUPABASE_URL = "https://nfodyeejtmazwhhwtafh.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5mb2R5ZWVqdG1hendoaHd0YWZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwNzkyNjUsImV4cCI6MjA2NTY1NTI2NX0.FmUAFZvgRONArWDB9FWQiZOLJ9OFc1Wd762rU01i68M";
+
+
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+    async function fetchConfirmedGuests() {
+      // Prendi tutti gli ospiti confermati
+      const { data, error } = await supabase
+        .from('guests')
+        .select('id,name,surname,invite_type,confirmation_status')
+        .eq('confirmation_status', true);
+
+      if (error) {
+        return { error };
+      }
+      return { data };
+    }
+
+    function renderList(title, guests, color) {
+      return `
+        <div>
+          <h2 class="font-playfair text-2xl text-center ${color} font-semibold mb-2">${title}</h2>
+          <div class="text-center text-lg mb-3">
+            <span class="font-inter font-bold">${guests.length}</span> confermati
+          </div>
+          <ul class="divide-y divide-wedding-dust/20 bg-wedding-cream/60 rounded-lg shadow-inner max-h-64 overflow-auto">
+            ${guests.map(g => `
+              <li class="py-2 px-3 font-inter text-wedding-brick">${g.name} ${g.surname}</li>
+            `).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    async function main() {
+      const recap = document.getElementById('recap-content');
+      recap.innerHTML = '<div class="text-center text-wedding-dust">Caricamento...</div>';
+
+      const { data, error } = await fetchConfirmedGuests();
+      if (error) {
+        recap.innerHTML = '<div class="text-center text-red-600">Errore nel caricamento dati.</div>';
+        return;
+      }
+
+      const pranzo = data.filter(g => (g.invite_type || '').toLowerCase() === 'pranzo');
+      const torta = data.filter(g => (g.invite_type || '').toLowerCase() === 'torta');
+
+      recap.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          ${renderList('Pranzo di Nozze', pranzo, 'text-wedding-brick')}
+          ${renderList('Taglio della Torta', torta, 'text-wedding-dust')}
+        </div>
+      `;
+    }
+
+    main();
+  </script>
+</body>
+</html>
