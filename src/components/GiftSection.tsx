@@ -36,7 +36,7 @@ const GiftSection = () => {
             <p>Non serve farci un regalo!</p> 
             <p>La casa c'è già ed è molto bella, Francesca ha già troppe scarpe e Mattia troppi giochi da tavolo!</p>
             <p><strong>Piuttosto</strong>, fateci un vero regalo e venite alla cerimonia a celebrare con noi! </p>
-            <p>...se, tuttavia, proprio ci tenete a darci un contributo... ci dareste una mano a fare un salto in Giappone!  </p>
+            <p>...se, tuttavia, proprio ci tenete a darci un contributo... ci dareste una mano a fare un giretto in Giappone e un saltino alle Maldive!</p>
           </p>
         </div>
 
